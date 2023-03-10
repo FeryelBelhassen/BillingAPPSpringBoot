@@ -7,10 +7,12 @@ import com.nst.facture.billing.payload.request.LoginRequest;
 import com.nst.facture.billing.payload.request.SignupRequest;
 import com.nst.facture.billing.payload.response.JwtResponse;
 import com.nst.facture.billing.payload.response.MessageResponse;
+import com.nst.facture.billing.repository.FactureRepository;
 import com.nst.facture.billing.repository.RoleRepository;
 import com.nst.facture.billing.repository.UserRepository;
 import com.nst.facture.billing.security.jwt.JwtUtils;
 import com.nst.facture.billing.security.services.UserDetailsImpl;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,7 +28,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8081", maxAge = 3600, allowCredentials="true")
+@Log4j2
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -38,6 +42,9 @@ public class AuthController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    FactureRepository factureRepository;
 
     @Autowired
     PasswordEncoder encoder;
@@ -63,6 +70,7 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
+                userDetails.getPassword(),
                 roles));
     }
 
@@ -95,20 +103,34 @@ public class AuthController {
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
+            log.debug(signUpRequest);
+            log.debug(role);
                 switch (role) {
-                    case "admin":
+                    case "1":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
 
                         break;
-                    case "mod":
-                        Role modRole = roleRepository.findByName(ERole.ROLE_AGENT)
+                    case "2":
+                        Role agentRole = roleRepository.findByName(ERole.ROLE_AGENT)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(agentRole);
 
                         break;
-                    default:
+                    case "4":
+                        Role magasinierRole = roleRepository.findByName(ERole.ROLE_MAGASINIER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(magasinierRole);
+
+                        break;
+                    case "5":
+                        Role clientRole = roleRepository.findByName(ERole.ROLE_CLIENT)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(clientRole);
+
+                        break;
+                    case "3":
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
@@ -121,4 +143,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
+
+
 }
