@@ -1,8 +1,7 @@
-package com.nst.facture.billing.security.services.impl;
+package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.User;
 import com.nst.facture.billing.repository.UserRepository;
-import com.nst.facture.billing.security.services.UserService;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 

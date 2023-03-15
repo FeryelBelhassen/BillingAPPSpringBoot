@@ -9,18 +9,31 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
+@Getter
+@Setter
+@Builder
+
+/**
+ * This a table of users
+ */
 @Table(	name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
+                @UniqueConstraint(columnNames = "email"),
+                @UniqueConstraint(columnNames = "password"),
+
+
         })
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+/**
+ * This class describe entity User
+ */
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,7 +43,7 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 120)
     @Email
     private String email;
 
@@ -43,4 +56,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+
+
 }

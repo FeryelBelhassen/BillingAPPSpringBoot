@@ -1,2 +1,9 @@
-package com.nst.facture.billing.spring.jpa;public class SpringBootBillingApplicationTests {
+package com.nst.facture.billing.spring.jpa;
+
+import org.junit.Test;
+
+public class SpringBootBillingApplicationTests {
+    @Test
+    void contextLoads() {
+    }
 }

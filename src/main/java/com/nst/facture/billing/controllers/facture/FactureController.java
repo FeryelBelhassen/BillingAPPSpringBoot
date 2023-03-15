@@ -1,115 +1,106 @@
-package com.nst.facture.billing.controllers;
+package com.nst.facture.billing.controllers.facture;
 
 
-import com.nst.facture.billing.models.Facture;
-import com.nst.facture.billing.repository.FactureRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class FactureController {
 
-    @Autowired
+   /* @Autowired
     FactureRepository factureRepository;
-    /*public FactureController(FactureRepository factureRepository) {
 
-        this.factureRepository = factureRepository;
-    }*/
+    @Autowired
+    private ModelMapper modelMapper;
 
-   @GetMapping("/factures")
-    public ResponseEntity<List<Facture>> getAllFactures(@RequestParam(required = false) Integer numero) {
-        try {
-            List<Facture> factures = new ArrayList<Facture>();
-            if (numero == null)
-                factureRepository.findAll().forEach(factures::add);
-            else
-                factureRepository.findByNumero(numero).forEach(factures::add);
+    @Autowired
+    private FactureService factureService;
 
-            if (factures.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
 
-            return new ResponseEntity<>(factures, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    /**
+     * This function displays the list of factures
+     * @return
+     */
+    /*@GetMapping
+    public List<FactureDto> getAllFactures() {
+
+        return factureService.getAllFactures().stream().map(facture -> modelMapper.map(facture, FactureDto.class))
+                .collect(Collectors.toList());
     }
 
-    @GetMapping("/factures/{id}")
-    public ResponseEntity<Facture> getFactureById(@PathVariable("id") long id) {
-        Optional<Facture> factureData = factureRepository.findById(id);
+    /**
+     * This function for get a facture
+     * @param id
+     * @return
+     */
+    /*@GetMapping("/{id}")
+    public ResponseEntity<FactureDto> getFactureById(@PathVariable(name = "id") Long id) {
+        Facture facture = factureService.getFactureById(id);
 
-        if (factureData.isPresent()) {
-            return new ResponseEntity<>(factureData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        // convert entity to DTO
+        FactureDto postResponse = modelMapper.map(facture, FactureDto.class);
+
+        return ResponseEntity.ok().body(postResponse);
+    }
+*/
+    /**
+     * This function about create a facture
+     * @param factureDto
+     * @return
+     */
+  /*  @PostMapping
+    public ResponseEntity<FactureDto> createFacture(@RequestBody FactureDto factureDto) {
+
+        // convert DTO to entity
+        Facture factureRequest = modelMapper.map(factureDto, Facture.class);
+
+        Facture facture = factureService.createFacture(factureRequest);
+
+        // convert entity to DTO
+        FactureDto factureResponse = modelMapper.map(facture, FactureDto.class);
+
+        return new ResponseEntity<FactureDto>(factureResponse, HttpStatus.CREATED);
     }
 
-    @PostMapping("/factures")
-    public ResponseEntity<Facture> createFacture(@RequestBody Facture facture) {
-        try {
-            Facture _facture = factureRepository
-                    .save(new Facture(facture.getNumero(), facture.getNomclient(), facture.getDesignation(),
-                            facture.getQuantite(), facture.getDate(), facture.getPrixunitaire(),
-                            facture.getMontantht(), facture.getTauxtva(), facture.getTauxttc(),false));
-            return new ResponseEntity<>(_facture, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    // change the request for DTO
+    // change the response for DTO
+
+    /**
+     * This function about update a facture
+     * @param id
+     * @param factureDto
+     * @return
+     */
+    /*@PutMapping("/{id}")
+    public ResponseEntity<FactureDto> updateFacture(@PathVariable long id, @RequestBody FactureDto factureDto) {
+
+        // convert DTO to Entity
+        Facture factureRequest = modelMapper.map(factureDto, Facture.class);
+
+        Facture facture = factureService.updateFacture(id, factureRequest);
+
+        // entity to DTO
+        FactureDto factureResponse = modelMapper.map(facture, FactureDto.class);
+
+        return ResponseEntity.ok().body(factureResponse);
     }
 
-    @PutMapping("/factures/{id}")
-    public ResponseEntity<Facture> updateFacture(@PathVariable("id") long id, @RequestBody Facture facture) {
-        Optional<Facture> factureData = factureRepository.findById(id);
-
-        if (factureData.isPresent()) {
-            Facture _facture = factureData.get();
-            _facture.setNumero(facture.getNumero());
-            _facture.setNomclient(facture.getNomclient());
-            _facture.setDesignation(facture.getDesignation());
-            _facture.setQuantite(facture.getQuantite());
-            _facture.setDate(facture.getDate());
-            _facture.setPrixunitaire(facture.getPrixunitaire());
-            _facture.setTauxttc(facture.getTauxttc());
-            _facture.setTauxtva(facture.getTauxtva());
-            _facture.setMontantht(facture.getMontantht());
-            return new ResponseEntity<>(factureRepository.save(_facture), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    /**
+     * This function about delete a facture
+     * @param id
+     * @return
+     */
+   /* @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteFacture(@PathVariable(name = "id") Long id) {
+        factureService.deleteFacture(id);
+        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Facture deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/factures/{id}")
-    public ResponseEntity<HttpStatus> deleteFacture(@PathVariable("id") long id) {
-        try {
-            factureRepository.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @DeleteMapping("/factures")
-    public ResponseEntity<HttpStatus> deleteAllFactures() {
-        try {
-            factureRepository.deleteAll();
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-    }
-
-
+*/
 
 
 }

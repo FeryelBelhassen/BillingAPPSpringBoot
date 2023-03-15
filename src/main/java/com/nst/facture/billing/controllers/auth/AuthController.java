@@ -1,17 +1,22 @@
-package com.nst.facture.billing.controllers;
+package com.nst.facture.billing.controllers.auth;
 
+import com.nst.facture.billing.exception.TokenRefreshException;
 import com.nst.facture.billing.models.ERole;
+import com.nst.facture.billing.models.RefreshToken;
 import com.nst.facture.billing.models.Role;
 import com.nst.facture.billing.models.User;
 import com.nst.facture.billing.payload.request.LoginRequest;
 import com.nst.facture.billing.payload.request.SignupRequest;
+import com.nst.facture.billing.payload.request.TokenRefreshRequest;
 import com.nst.facture.billing.payload.response.JwtResponse;
 import com.nst.facture.billing.payload.response.MessageResponse;
-import com.nst.facture.billing.repository.FactureRepository;
+import com.nst.facture.billing.payload.response.TokenRefreshResponse;
 import com.nst.facture.billing.repository.RoleRepository;
 import com.nst.facture.billing.repository.UserRepository;
 import com.nst.facture.billing.security.jwt.JwtUtils;
+import com.nst.facture.billing.security.services.RefreshTokenService;
 import com.nst.facture.billing.security.services.UserDetailsImpl;
+import io.swagger.annotations.Api;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +33,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @CrossOrigin(origins = "http://localhost:8081", maxAge = 3600, allowCredentials="true")
 @Log4j2
 @RestController
 @RequestMapping("/api/auth")
+@Api("Authentification controller")
+
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -44,48 +50,59 @@ public class AuthController {
     RoleRepository roleRepository;
 
     @Autowired
-    FactureRepository factureRepository;
-
-    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
     JwtUtils jwtUtils;
 
+    @Autowired
+    RefreshTokenService refreshTokenService;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
+
+        String jwt = jwtUtils.generateJwtToken(userDetails);
+
+        List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                userDetails.getPassword(),
-                roles));
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+
+        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
+                userDetails.getUsername(), userDetails.getEmail(), roles));
     }
+
+    @PostMapping("/refreshtoken")
+    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+        String requestRefreshToken = request.getRefreshToken();
+
+        return refreshTokenService.findByToken(requestRefreshToken)
+                .map(refreshTokenService::verifyExpiration)
+                .map(RefreshToken::getUser)
+                .map(user -> {
+                    String token = jwtUtils.generateTokenFromUsername(user.getUsername());
+                    return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
+                })
+                .orElseThrow(() -> new TokenRefreshException(requestRefreshToken,
+                        "Refresh token is not in database!"));
+    }
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
 
         // Create new user's account
@@ -103,8 +120,6 @@ public class AuthController {
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
-            log.debug(signUpRequest);
-            log.debug(role);
                 switch (role) {
                     case "1":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
@@ -144,5 +159,14 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 
+
+
+    @PostMapping("/signout")
+    public ResponseEntity<?> logoutUser() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = userDetails.getId();
+        refreshTokenService.deleteByUserId(userId);
+        return ResponseEntity.ok(new MessageResponse("Log out successful!"));
+    }
 
 }

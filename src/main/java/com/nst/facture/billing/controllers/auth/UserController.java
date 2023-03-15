@@ -1,118 +1,126 @@
-package com.nst.facture.billing.controllers;
+package com.nst.facture.billing.controllers.auth;
 
 
 import com.nst.facture.billing.models.User;
-import com.nst.facture.billing.security.services.UserService;
+import com.nst.facture.billing.payload.Dto.UserDto;
+import com.nst.facture.billing.payload.response.ApiResponse;
+import com.nst.facture.billing.service.UserService;
+import io.swagger.annotations.Api;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 @CrossOrigin(origins = "http://localhost:8081")
+@Api("User Controller API")
+/**
+ * This class describes a userController
+ */
 public class UserController {
     @Autowired
-    private UserService userService;
-// JAVADOC
-    private List<User> users = createList();
+    private ModelMapper modelMapper;
+
+    @Autowired
+    private  UserService userService;
 
 
- /*   public ResponseEntity<?> demo(){
+    /**
+     * This function displays the list of users
+     * @return
+     */
+    @GetMapping
+    public List<UserDto> getAllUsers() {
+
+        return userService.getAllUsers().stream().map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * This function for get a user
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
+        User user = userService.getUserById(id);
+
+        // convert entity to DTO
+        UserDto userResponse = modelMapper.map(user, UserDto.class);
+
+        return ResponseEntity.ok().body(userResponse);
+    }
+
+    /**
+     * This function about create a user
+     * @param userDto
+     * @return
+     */
+    @PostMapping
+    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+
+        // convert DTO to entity
+        User userRequest = modelMapper.map(userDto, User.class);
+
+        User user = userService.createUser(userRequest);
+
+        // convert entity to DTO
+        UserDto userResponse = modelMapper.map(user, UserDto.class);
+
+        return new ResponseEntity<UserDto>(userResponse, HttpStatus.CREATED);
+    }
+
+    // change the request for DTO
+    // change the response for DTO
+
+    /**
+     * This function about update a user
+     * @param id
+     * @param userDto
+     * @return
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
+
+        // convert DTO to Entity
+        User userRequest = modelMapper.map(userDto, User.class);
+
+        User user = userService.updateUser(id, userRequest);
+
+        // entity to DTO
+        UserDto userResponse = modelMapper.map(user, UserDto.class);
+
+        return ResponseEntity.ok().body(userResponse);
+    }
+
+    /**
+     * This function about delete a user
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse> deleteUser(@PathVariable(name = "id") Long id) {
+        userService.deleteUser(id);
+        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "User deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+    }
+
+
+    /*   public ResponseEntity<?> demo(){
         try {
             return new ResponseEntity<>()
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage())
         }
     }*/
-    private static List<User> createList() {
-        List<User> userList = new ArrayList<>();
 
-        User user1 = new User();
-        user1.setUsername("Feryel");
-        user1.setEmail("feryel@gmail.com");
-        user1.setPassword("123456789");
-        //user1.setTelephone(52369874);
-        //user1.setRoles("ROLE_ADMIN");
-        User user2 = new User();
-        user2.setUsername("Ahmed");
-        user2.setEmail("ahmed@gmail.com");
-        user2.setPassword("ahmed12345");
-       // user2.setTelephone(20132654);
-
-
-        userList.add(user1);
-        userList.add(user2);
-
-        return userList;
-    }
-
-    @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
-
-    @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
-        System.out.println("Added User - " + user.getUsername());
-        users.add(user);
-        return user;
-    }
-
-
-    @PutMapping("/users/{username}")
-    public User updateUser(@PathVariable(value = "username") String username, @RequestBody User userDetails) {
-        System.out.println("Updated User - " + username);
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                users.remove(users.indexOf(user));
-                users.add(userDetails);
-                break;
-            }
-        }
-        return userDetails;
-    }
-
-    @DeleteMapping("/users/{username}")
-    public User deleteUser(@PathVariable(value = "username") String username) {
-        System.out.println("Deleted User - " + username);
-        User deletedUser = null;
-        for (User user : users) {
-            if (user.getUsername().equals(username)) {
-                users.remove(user);
-                deletedUser = user;
-                break;
-            }
-        }
-        return deletedUser;
-    }
-
-
-       /* @PostMapping("/save")
-        public User saveUser(@RequestBody User user) {
-
-            return userService.saveUser(user);
-        }
-
-        @PutMapping("/update")
-        public User updateUser(@RequestBody User user) {
-            return userService.updateUser(user);
-        }*/
-
-/*
-        @GetMapping("/getone/{id}")
-        public User getUser(@PathVariable(name = "userId") Long id) {
-            return userService.getUser(id);
-        }
-
-        @DeleteMapping("/delete/{id}")
-        public void deleteUser(@PathVariable(name = "id") Long id) {
-            userService.deleteUser(id);
-        }*/
 
     @GetMapping("/all")
     public ResponseEntity<?> getContent() {

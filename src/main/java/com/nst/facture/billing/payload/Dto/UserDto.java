@@ -1,4 +1,4 @@
-package com.nst.facture.billing.payload;
+package com.nst.facture.billing.payload.Dto;
 
 public class UserDto {
     private long id;

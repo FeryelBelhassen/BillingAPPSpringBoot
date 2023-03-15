@@ -1,4 +1,4 @@
-package com.nst.facture.billing.security;
+package com.nst.facture.billing.configuration;
 
 import com.nst.facture.billing.security.jwt.AuthEntryPointJwt;
 import com.nst.facture.billing.security.jwt.AuthTokenFilter;

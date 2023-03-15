@@ -1,4 +1,4 @@
-package com.nst.facture.billing.swaggerjwt.config;
+package com.nst.facture.billing.configuration;
 
 
 import lombok.Builder;

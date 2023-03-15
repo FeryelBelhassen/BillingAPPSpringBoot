@@ -1,7 +1,8 @@
 package com.nst.facture.billing.security.services;
 
-import com.nst.facture.billing.models.User;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nst.facture.billing.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

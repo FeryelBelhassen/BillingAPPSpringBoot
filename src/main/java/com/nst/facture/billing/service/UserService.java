@@ -1,4 +1,4 @@
-package com.nst.facture.billing.security.services;
+package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.User;
 
