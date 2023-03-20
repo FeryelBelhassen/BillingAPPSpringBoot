@@ -4,6 +4,7 @@ package com.nst.facture.billing.controllers.auth;
 import com.nst.facture.billing.models.User;
 import com.nst.facture.billing.payload.Dto.UserDto;
 import com.nst.facture.billing.payload.response.ApiResponse;
+import com.nst.facture.billing.repository.UserRepository;
 import com.nst.facture.billing.service.UserService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -14,11 +15,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:8081")
 @Api("User Controller API")
 /**
@@ -30,17 +30,20 @@ public class UserController {
 
     @Autowired
     private  UserService userService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     /**
      * This function displays the list of users
      * @return
      */
-    @GetMapping
-    public List<UserDto> getAllUsers() {
+    @GetMapping("/users")
+    public List<User> getAllUsers() {
 
-        return userService.getAllUsers().stream().map(user -> modelMapper.map(user, UserDto.class))
-                .collect(Collectors.toList());
+        return userRepository.findAll();
+                /*.stream().map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());*/
     }
 
     /**
