@@ -1,19 +1,19 @@
 package com.nst.facture.billing.service;
 
-import com.nst.facture.billing.models.Facture;
+import com.nst.facture.billing.models.Devis;
 
 import java.util.List;
 
-public interface FactureService {
-    public List<Facture> getAllFactures();
+public interface DevisService {
+    public List<Devis> getAllDevis();
 
-    Facture createFacture(Facture facture);
+    Devis createDevis(Devis devis);
 
-    Facture updateFacture(long id, Facture facture);
+    Devis updateDevis(long id, Devis devis);
 
-    void deleteFacture(long id);
+    void deleteDevis(long id);
 
-    Facture getFactureById(long id);
+    Devis getDevisById(long id);
 
 
 }

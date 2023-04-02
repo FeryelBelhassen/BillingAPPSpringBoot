@@ -2,7 +2,6 @@ package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Facture;
 
-
 import java.util.List;
 
 public interface FactureService {
@@ -15,4 +14,6 @@ public interface FactureService {
     void deleteFacture(long id);
 
     Facture getFactureById(long id);
+
+
 }

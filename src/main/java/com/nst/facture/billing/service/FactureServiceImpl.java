@@ -3,10 +3,12 @@ package com.nst.facture.billing.service;
 import com.nst.facture.billing.models.Facture;
 import com.nst.facture.billing.repository.FactureRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class FactureServiceImpl implements FactureService {
     private final FactureRepository factureRepository;
 
@@ -14,14 +16,15 @@ public class FactureServiceImpl implements FactureService {
         super();
         this.factureRepository = factureRepository;
     }
-
     @Override
     public List<Facture> getAllFactures() {
+
         return (List<Facture>) factureRepository.findAll();
     }
 
     @Override
     public Facture createFacture(Facture facture) {
+
         return factureRepository.save(facture);
     }
 
@@ -30,13 +33,11 @@ public class FactureServiceImpl implements FactureService {
         Facture facture = factureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Facture"));
 
-        facture.setNumero(factureRequest.getNumero());
-        facture.setClientId(facture.getClientId());
-        facture.setDateFacture(facture.getDateFacture());
-        facture.setDateValidation(facture.getDateValidation());
-        facture.setMontantTTC(facture.getMontantTTC());
-        facture.setMontantHT(facture.getMontantHT());
-        facture.setAnnee(facture.getAnnee());
+        facture.setNumerofacture(factureRequest.getNumerofacture());
+        facture.setClientid(factureRequest.getClientid());
+        facture.setDatefacture(factureRequest.getDatefacture());
+        facture.setMontanttc(factureRequest.getMontanttc());
+        facture.setMontantht(factureRequest.getMontantht());
         return factureRepository.save(facture);
     }
 
@@ -51,11 +52,12 @@ public class FactureServiceImpl implements FactureService {
     @Override
     public Facture getFactureById(long id) {
         Optional<Facture> result = factureRepository.findById(id);
-        if (result.isPresent()) {
+        if(result.isPresent()) {
             return result.get();
-        } else {
+        }else {
             throw new ResourceNotFoundException("Facture ");
         }
-
     }
+
+
 }

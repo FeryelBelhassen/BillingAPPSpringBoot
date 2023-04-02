@@ -2,14 +2,11 @@ package com.nst.facture.billing.payload.Dto;
 
 import java.util.Date;
 
-public class FactureDto {
+public class DevisDto {
     private long id;
-    private long numero_facture;
-    private long id_client;
-    private Date date_facture;
-    private Date date_validation;
-    private Float montant_ttc;
-    private Float montant_ht;
-    private int annee;
+    private long numerodevis;
+    private Date datedevis;
+    private int quantity;
+    private Double price;
 
     }

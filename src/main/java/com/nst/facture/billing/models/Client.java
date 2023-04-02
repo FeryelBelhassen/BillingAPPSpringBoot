@@ -6,8 +6,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @NoArgsConstructor
@@ -19,20 +17,22 @@ import java.util.Set;
 @Builder
 
 /**
- * This a table of users
+ * This a table of clients
  */
-@Table(	name = "users",
+@Table(	name = "clients",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email"),
                 @UniqueConstraint(columnNames = "password"),
+                @UniqueConstraint(columnNames = "adresse"),
+                @UniqueConstraint(columnNames = "telephone")
 
 
         })
 /**
- * This class describe entity User
+ * This class describe entity Client
  */
-public class User {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,12 +51,13 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @NotBlank
+    @Size(max = 120)
+    private String adresse;
 
+    @NotBlank
+    @Size(max = 120)
+    private String telephone;
 
 
 }

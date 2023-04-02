@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FactureRepository extends CrudRepository<Facture, Long> {
 
-    List<Facture> findByNumero(Integer numero);
+    List<Facture> findByNumerofacture(Integer numerofacture);
 
 
 }

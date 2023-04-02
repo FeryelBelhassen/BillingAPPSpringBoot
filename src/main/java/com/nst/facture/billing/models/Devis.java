@@ -6,15 +6,12 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(	name = "factures",
+@Table(	name = "devis",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "numero_facture"),
-                @UniqueConstraint(columnNames = "id_client"),
-                @UniqueConstraint(columnNames = "date_facture"),
-                @UniqueConstraint(columnNames = "date_validation"),
-                @UniqueConstraint(columnNames = "montant_ttc"),
-                @UniqueConstraint(columnNames = "montant_ht"),
-                @UniqueConstraint(columnNames = "annee"),
+                @UniqueConstraint(columnNames = "numero_devis"),
+                @UniqueConstraint(columnNames = "date_devis"),
+                @UniqueConstraint(columnNames = "quantity"),
+                @UniqueConstraint(columnNames = "price")
 
 
         })
@@ -26,34 +23,25 @@ import java.time.LocalDate;
 @ToString
 
 /**
- * This class describes Facture Entity
+ * This class describes Devis Entity
  */
-
-public class Facture {
+public class Devis {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "numero_facture")
-    private String numero;
+    @Column(name = "numero_devis")
+    private String numerodevis;
 
-    @Column(name = "id_client")
-    private String ClientId;
+    @Column(name = "date_devis")
+    private LocalDate datedevis;
 
-    @Column(name = "date_facture")
-    private LocalDate dateFacture;
+    @Column(name = "quantity")
+    private int quantity;
 
-    @Column(name = "date_validation")
-    private LocalDate dateValidation;
+    @Column(name = "price")
+    private Double price;
 
-    @Column(name = "montant_ttc")
-    private Double montantTTC;
-
-    @Column(name = "montant_ht")
-    private Double montantHT;
-
-    @Column(name = "annee")
-    private int annee;
 
 
 

@@ -19,11 +19,13 @@ public class ProductServiceImpl implements ProductService {
     }
     @Override
     public List<Product> getProducts() {
+
         return productRepository.findAll();
     }
 
     @Override
     public Product createProduct(Product product) {
+
         return productRepository.save(product);
     }
 
@@ -37,6 +39,7 @@ public class ProductServiceImpl implements ProductService {
         product.setQuantity(productRequest.getQuantity());
         product.setSupplier(productRequest.getSupplier());
         product.setPrice(productRequest.getPrice());
+        product.setStatus(productRequest.getStatus());
         return productRepository.save(product);
     }
 

@@ -18,8 +18,9 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api")
+
 @CrossOrigin(origins = "http://localhost:8081")
+@RequestMapping("/api")
 @Api("User Controller API")
 /**
  * This class describes a userController
@@ -39,19 +40,21 @@ public class UserController {
      * @return
      */
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<User> allUsers(){
+        return userService.getAllUsers();
 
-        return userRepository.findAll();
-                /*.stream().map(user -> modelMapper.map(user, UserDto.class))
-                .collect(Collectors.toList());*/
     }
+    /*public List<UserDto> getAllUsers() {
+       return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+    }*/
 
     /**
      * This function for get a user
      * @param id
      * @return
      */
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
         User user = userService.getUserById(id);
 
@@ -66,7 +69,7 @@ public class UserController {
      * @param userDto
      * @return
      */
-    @PostMapping
+    @PostMapping("/createuser")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
 
         // convert DTO to entity
@@ -89,7 +92,7 @@ public class UserController {
      * @param userDto
      * @return
      */
-    @PutMapping("/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
 
         // convert DTO to Entity
@@ -108,7 +111,7 @@ public class UserController {
      * @param id
      * @return
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable(name = "id") Long id) {
         userService.deleteUser(id);
         ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "User deleted successfully", HttpStatus.OK);

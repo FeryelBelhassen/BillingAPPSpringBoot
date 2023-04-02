@@ -1,16 +1,27 @@
 package com.nst.facture.billing.controllers.facture;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.nst.facture.billing.models.Facture;
+import com.nst.facture.billing.payload.Dto.FactureDto;
+import com.nst.facture.billing.payload.response.ApiResponse;
+import com.nst.facture.billing.repository.FactureRepository;
+import com.nst.facture.billing.service.FactureService;
+import io.swagger.annotations.Api;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:8081")
+import java.util.List;
+
 @RestController
+@CrossOrigin(origins = "http://localhost:8081")
 @RequestMapping("/api")
+@Api("Facture Controller API")
 public class FactureController {
 
-   /* @Autowired
+    @Autowired
     FactureRepository factureRepository;
 
     @Autowired
@@ -24,19 +35,24 @@ public class FactureController {
      * This function displays the list of factures
      * @return
      */
-    /*@GetMapping
+    /*@GetMapping("/factures")
     public List<FactureDto> getAllFactures() {
 
         return factureService.getAllFactures().stream().map(facture -> modelMapper.map(facture, FactureDto.class))
                 .collect(Collectors.toList());
-    }
+    }*/
 
+    @GetMapping("/factures")
+    public List<Facture> getAllFactures(){
+        return factureService.getAllFactures();
+
+    }
     /**
      * This function for get a facture
      * @param id
      * @return
      */
-    /*@GetMapping("/{id}")
+    @GetMapping("/facture/{id}")
     public ResponseEntity<FactureDto> getFactureById(@PathVariable(name = "id") Long id) {
         Facture facture = factureService.getFactureById(id);
 
@@ -45,13 +61,13 @@ public class FactureController {
 
         return ResponseEntity.ok().body(postResponse);
     }
-*/
+
     /**
      * This function about create a facture
      * @param factureDto
      * @return
      */
-  /*  @PostMapping
+   @PostMapping("/createfacture")
     public ResponseEntity<FactureDto> createFacture(@RequestBody FactureDto factureDto) {
 
         // convert DTO to entity
@@ -74,7 +90,7 @@ public class FactureController {
      * @param factureDto
      * @return
      */
-    /*@PutMapping("/{id}")
+    @PutMapping("/facture/{id}")
     public ResponseEntity<FactureDto> updateFacture(@PathVariable long id, @RequestBody FactureDto factureDto) {
 
         // convert DTO to Entity
@@ -93,14 +109,12 @@ public class FactureController {
      * @param id
      * @return
      */
-   /* @DeleteMapping("/{id}")
+    @DeleteMapping("/facture/{id}")
     public ResponseEntity<ApiResponse> deleteFacture(@PathVariable(name = "id") Long id) {
         factureService.deleteFacture(id);
         ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Facture deleted successfully", HttpStatus.OK);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
-
-*/
 
 
 }

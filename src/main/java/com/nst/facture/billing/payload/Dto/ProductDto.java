@@ -4,7 +4,8 @@ public class ProductDto {
     private long id;
     private String code;
     private String designation;
-    private Number quantity;
+    private long quantity;
     private String supplier;
-    private Number price;
+    private long price;
+    private String status;
 }

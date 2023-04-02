@@ -37,25 +37,28 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 20)
-    private String code;
+    //@NotBlank
+    //@Size(max = 20)
+    private long code;
 
     @NotBlank
     @Size(max = 120)
     private String designation;
 
-    @NotBlank
-    @Size(max = 120)
-    private String quantity;
+    //@NotBlank
+    //@Size(max = 120)
+    private long quantity;
 
     @NotBlank
     @Size(max = 120)
     private String supplier;
 
-   @NotBlank
-   @Size(max = 120)
-    private String price;
+   //@NotBlank
+   //@Size(max = 120)
+    private long price;
 
+    @NotBlank
+    @Size(max = 120)
+    private String status;
 
 }

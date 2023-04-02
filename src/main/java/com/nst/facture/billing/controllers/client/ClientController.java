@@ -1,11 +1,11 @@
-package com.nst.facture.billing.controllers.facture;
+package com.nst.facture.billing.controllers.client;
 
 
-import com.nst.facture.billing.models.Facture;
-import com.nst.facture.billing.payload.Dto.FactureDto;
+import com.nst.facture.billing.models.Client;
+import com.nst.facture.billing.payload.Dto.ClientDto;
 import com.nst.facture.billing.payload.response.ApiResponse;
-import com.nst.facture.billing.repository.FactureRepository;
-import com.nst.facture.billing.service.FactureService;
+import com.nst.facture.billing.repository.ClientRepository;
+import com.nst.facture.billing.service.ClientService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,101 +14,106 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/facture")
 @CrossOrigin(origins = "http://localhost:8081")
-@Api("Facture Controller API")
-public class FactureController {
+@RequestMapping("/api")
+@Api("Client Controller API")
+public class ClientController {
 
     @Autowired
-    FactureRepository factureRepository;
+    ClientRepository clientRepository;
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
-    private FactureService factureService;
+    private ClientService clientService;
 
 
     /**
-     * This function displays the list of factures
+     * This function displays the list of clients
      * @return
      */
-    @GetMapping
-    public List<FactureDto> getAllFactures() {
+    /*@GetMapping
+    public List<ClientDto> getAllClients() {
 
-        return factureService.getAllFactures().stream().map(facture -> modelMapper.map(facture, FactureDto.class))
+        return clientService.getAllClients().stream().map(client -> modelMapper.map(client, ClientDto.class))
                 .collect(Collectors.toList());
+    }*/
+
+    @GetMapping("/clients")
+    public List<Client> getClients(){
+        return clientService.getAllClients();
+
     }
 
     /**
-     * This function for get a facture
+     * This function for get a client
      * @param id
      * @return
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<FactureDto> getFactureById(@PathVariable(name = "id") Long id) {
-        Facture facture = factureService.getFactureById(id);
+    @GetMapping("/client/{id}")
+    public ResponseEntity<ClientDto> getClientById(@PathVariable(name = "id") Long id) {
+        Client client = clientService.getClientById(id);
 
         // convert entity to DTO
-        FactureDto postResponse = modelMapper.map(facture, FactureDto.class);
+        ClientDto postResponse = modelMapper.map(client, ClientDto.class);
 
         return ResponseEntity.ok().body(postResponse);
     }
 
     /**
-     * This function about create a facture
-     * @param factureDto
+     * This function about create a client
+     * @param clientDto
      * @return
      */
-   @PostMapping
-    public ResponseEntity<FactureDto> createFacture(@RequestBody FactureDto factureDto) {
+   @PostMapping("/createclient")
+    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto) {
 
         // convert DTO to entity
-        Facture factureRequest = modelMapper.map(factureDto, Facture.class);
+        Client clientRequest = modelMapper.map(clientDto, Client.class);
 
-        Facture facture = factureService.createFacture(factureRequest);
+        Client client = clientService.createClient(clientRequest);
 
         // convert entity to DTO
-        FactureDto factureResponse = modelMapper.map(facture, FactureDto.class);
+        ClientDto clientResponse = modelMapper.map(client, ClientDto.class);
 
-        return new ResponseEntity<FactureDto>(factureResponse, HttpStatus.CREATED);
+        return new ResponseEntity<ClientDto>(clientResponse, HttpStatus.CREATED);
     }
 
     // change the request for DTO
     // change the response for DTO
 
     /**
-     * This function about update a facture
+     * This function about update a client
      * @param id
-     * @param factureDto
+     * @param clientDto
      * @return
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<FactureDto> updateFacture(@PathVariable long id, @RequestBody FactureDto factureDto) {
+    @PutMapping("/client/{id}")
+    public ResponseEntity<ClientDto> updateClient(@PathVariable long id, @RequestBody ClientDto clientDto) {
 
         // convert DTO to Entity
-        Facture factureRequest = modelMapper.map(factureDto, Facture.class);
+        Client clientRequest = modelMapper.map(clientDto, Client.class);
 
-        Facture facture = factureService.updateFacture(id, factureRequest);
+        Client client = clientService.updateClient(id, clientRequest);
 
         // entity to DTO
-        FactureDto factureResponse = modelMapper.map(facture, FactureDto.class);
+        ClientDto clientResponse = modelMapper.map(client, ClientDto.class);
 
-        return ResponseEntity.ok().body(factureResponse);
+        return ResponseEntity.ok().body(clientResponse);
     }
 
     /**
-     * This function about delete a facture
+     * This function about delete a client
      * @param id
      * @return
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteFacture(@PathVariable(name = "id") Long id) {
-        factureService.deleteFacture(id);
-        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Facture deleted successfully", HttpStatus.OK);
+    @DeleteMapping("/client/{id}")
+    public ResponseEntity<ApiResponse> deleteClient(@PathVariable(name = "id") Long id) {
+        clientService.deleteClient(id);
+        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Client deleted successfully", HttpStatus.OK);
         return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
 

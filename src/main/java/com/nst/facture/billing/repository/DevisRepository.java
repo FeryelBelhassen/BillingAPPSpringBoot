@@ -1,13 +1,13 @@
 package com.nst.facture.billing.repository;
 
-import com.nst.facture.billing.models.Facture;
+import com.nst.facture.billing.models.Devis;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface FactureRepository extends CrudRepository<Facture, Long> {
+public interface DevisRepository extends CrudRepository<Devis, Long> {
 
-    List<Facture> findByNumero(Integer numero);
+    List<Devis> findByNumerodevis(Integer numerodevis);
 
 
 }

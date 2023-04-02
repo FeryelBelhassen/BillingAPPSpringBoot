@@ -3,7 +3,7 @@ package com.nst.facture.billing.models;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(	name = "factures",
@@ -11,10 +11,9 @@ import java.util.Date;
                 @UniqueConstraint(columnNames = "numero_facture"),
                 @UniqueConstraint(columnNames = "id_client"),
                 @UniqueConstraint(columnNames = "date_facture"),
-                @UniqueConstraint(columnNames = "date_validation"),
                 @UniqueConstraint(columnNames = "montant_ttc"),
                 @UniqueConstraint(columnNames = "montant_ht"),
-                @UniqueConstraint(columnNames = "annee"),
+
 
 
         })
@@ -35,26 +34,19 @@ public class Facture {
     private long id;
 
     @Column(name = "numero_facture")
-    private Integer numero;
+    private long numerofacture;
 
     @Column(name = "id_client")
-    private String ClientId;
+    private long clientid;
 
     @Column(name = "date_facture")
-    private Date dateFacture;
-
-    @Column(name = "date_validation")
-    private Date dateValidation;
+    private LocalDate datefacture;
 
     @Column(name = "montant_ttc")
-    private Float montantTTC;
+    private Double montanttc;
 
     @Column(name = "montant_ht")
-    private Float montantHT;
-
-    @Column(name = "annee")
-    private Float annee;
-
+    private Double montantht;
 
 
 }

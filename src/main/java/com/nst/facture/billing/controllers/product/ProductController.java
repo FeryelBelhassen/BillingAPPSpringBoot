@@ -13,12 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/api/product")
 @CrossOrigin(origins = "http://localhost:8081")
+@RequestMapping("/api")
 @Api("Product Controller API")
 /**
  * This class describes a productController
@@ -35,20 +34,24 @@ public class ProductController {
      * This function displays the list of products
      * @return
      */
-    @GetMapping
+    /*@GetMapping("/products")
     public List<ProductDto> getProducts() {
 
         return productService.getProducts().stream().map(product -> modelMapper.map(product, ProductDto.class))
                 .collect(Collectors.toList());
-    }
+    }*/
+    @GetMapping("/products")
+    public List<Product> allProducts(){
+        return productService.getProducts();
 
+    }
 
     /**
      * This function for get a product
      * @param id
      * @return
      */
-    @GetMapping("/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<ProductDto> geProductById(@PathVariable(name = "id") Long id) {
         Product product = productService.getProductById(id);
 
@@ -63,7 +66,7 @@ public class ProductController {
      * @param productDto
      * @return
      */
-    @PostMapping
+    @PostMapping("/createProduct")
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
 
         // convert DTO to entity
@@ -86,7 +89,7 @@ public class ProductController {
      * @param productDto
      * @return
      */
-    @PutMapping("/{id}")
+    @PutMapping("/products/{id}")
     public ResponseEntity<ProductDto> updateProduct(@PathVariable long id, @RequestBody ProductDto productDto) {
 
         // convert DTO to Entity
@@ -105,7 +108,7 @@ public class ProductController {
      * @param id
      * @return
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable(name = "id") Long id) {
         productService.deleteProduct(id);
         ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Product deleted successfully", HttpStatus.OK);

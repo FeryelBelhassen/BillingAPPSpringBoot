@@ -7,9 +7,8 @@ public class FactureDto {
     private long numero_facture;
     private long id_client;
     private Date date_facture;
-    private Date date_validation;
     private Float montant_ttc;
     private Float montant_ht;
-    private int annee;
+
 
     }

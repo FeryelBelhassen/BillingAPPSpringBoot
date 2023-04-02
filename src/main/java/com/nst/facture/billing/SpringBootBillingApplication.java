@@ -1,12 +1,7 @@
 package com.nst.facture.billing;
 
-import com.nst.facture.billing.models.ERole;
-import com.nst.facture.billing.models.Product;
-import com.nst.facture.billing.models.Role;
-import com.nst.facture.billing.models.User;
-import com.nst.facture.billing.repository.ProductRepository;
-import com.nst.facture.billing.repository.RoleRepository;
-import com.nst.facture.billing.repository.UserRepository;
+import com.nst.facture.billing.models.*;
+import com.nst.facture.billing.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
@@ -15,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,6 +28,12 @@ public class SpringBootBillingApplication {
     RoleRepository roleRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private FactureRepository factureRepository;
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private DevisRepository devisRepository;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -53,9 +55,6 @@ public class SpringBootBillingApplication {
             Role role3 = Role.builder().id(4).name(ERole.ROLE_MAGASINIER).build();
             Role role4 = Role.builder().id(5).name(ERole.ROLE_CLIENT).build();
             roleRepository.saveAll(List.of(roleAdmin, role1, role2, role3, role4));
-            /*Facture facture = Facture.builder().numero(1).nomclient("Feryel").date(01/02/2021)
-                    .designation("f").quantite(2).tauxtva(12).tauxttc(15).montantht(170).build();
-            factureRepository.saveAll(facture);*/
 
             User admin = User.builder().username("feryel")
                     .email("feryel@gmail.com")
@@ -71,22 +70,34 @@ public class SpringBootBillingApplication {
                     .build();
             userRepository.save(client);
 
-            Product product = Product.builder().code("12345")
+            Product product = Product.builder().code(12345)
                     .designation("Product 1")
-                    .quantity("2")
+                    .quantity(2)
                     .supplier("ahmed")
-                    .price("12").build();
+                    .price(12)
+                    .status("INSTOCK").build();
             productRepository.save(product);
-/*
-            User agent = User.builder().username("ahmed")
-                    .email("ahmed@gmail.com")
-                    .password(passwordEncoder.encode("a12345678"))
-                    .roles(Collections.singleton(role1))
-                    .build();
-            userRepository.save(agent);*/
 
+            Facture facture = Facture.builder().numerofacture(123456)
+                    .clientid(1)
+                    .datefacture(LocalDate.ofEpochDay(2023/03/01))
+                    .montanttc(12.03)
+                    .montantht(2.3).build();
+            factureRepository.save(facture);
 
-    };
-    }
+            Client client1= Client.builder().username("sami")
+                    .email("sami@gmail.com")
+                    .password("sami1478")
+                    .adresse("NABEUL")
+                    .telephone("52021780").build();
+            clientRepository.save(client1);
 
+            Devis devis= Devis.builder().numerodevis("1236580")
+                    .datedevis(LocalDate.ofEpochDay(2023/04/01))
+                    .quantity(2)
+                    .price(150.23).build();
+            devisRepository.save(devis);
+
+        };
+        }
 }

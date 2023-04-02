@@ -26,6 +26,7 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email"),
                 @UniqueConstraint(columnNames = "password"),
+                //@UniqueConstraint(columnNames = "role"),
 
 
         })

@@ -1,19 +1,19 @@
 package com.nst.facture.billing.service;
 
-import com.nst.facture.billing.models.Facture;
+import com.nst.facture.billing.models.Client;
 
 import java.util.List;
 
-public interface FactureService {
-    public List<Facture> getAllFactures();
+public interface ClientService {
+    List<Client> getAllClients();
 
-    Facture createFacture(Facture facture);
+    Client createClient(Client client);
 
-    Facture updateFacture(long id, Facture facture);
+    Client updateClient(long id, Client client);
 
-    void deleteFacture(long id);
+    void deleteClient(long id);
 
-    Facture getFactureById(long id);
+    Client getClientById(long id);
 
 
 }
