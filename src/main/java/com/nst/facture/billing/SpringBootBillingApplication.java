@@ -49,24 +49,24 @@ public class SpringBootBillingApplication {
     ApplicationRunner appStarted() {
         return args -> {
 
-            Role roleAdmin = Role.builder().id(1).name(ERole.ROLE_ADMIN).build();
-            Role role1 = Role.builder().id(2).name(ERole.ROLE_AGENT).build();
-            Role role2 = Role.builder().name(ERole.ROLE_USER).id(3).build();
-            Role role3 = Role.builder().id(4).name(ERole.ROLE_MAGASINIER).build();
-            Role role4 = Role.builder().id(5).name(ERole.ROLE_CLIENT).build();
+            Role roleAdmin = Role.builder().id(1).name(ERole.ADMIN).build();
+            Role role1 = Role.builder().id(2).name(ERole.AGENT).build();
+            Role role2 = Role.builder().name(ERole.USER).id(3).build();
+            Role role3 = Role.builder().id(4).name(ERole.MAGASINIER).build();
+            Role role4 = Role.builder().id(5).name(ERole.CLIENT).build();
             roleRepository.saveAll(List.of(roleAdmin, role1, role2, role3, role4));
 
             User admin = User.builder().username("feryel")
                     .email("feryel@gmail.com")
                     .password(passwordEncoder.encode("12345678"))
-                    .roles(Collections.singleton(roleAdmin))
+                    .appRoles(Collections.singleton(roleAdmin))
                     .build();
             userRepository.save(admin);
 
             User client = User.builder().username("ahmed")
                     .email("a@gmail.com")
                     .password(passwordEncoder.encode("ahmed123"))
-                    .roles(Collections.singleton(role4))
+                    .appRoles(Collections.singleton(role4))
                     .build();
             userRepository.save(client);
 
