@@ -34,6 +34,8 @@ public class SpringBootBillingApplication {
     private ClientRepository clientRepository;
     @Autowired
     private DevisRepository devisRepository;
+    @Autowired
+    private FactureAvoirRepository factureAvoirRepository;
 
     @Bean
     public ModelMapper modelMapper() {
@@ -97,6 +99,15 @@ public class SpringBootBillingApplication {
                     .quantity(2)
                     .price(150.23).build();
             devisRepository.save(devis);
+
+            FactureAvoir factureavoir = FactureAvoir.builder().numfactureavoir(147852)
+                    .clientid(2)
+                    .datefacture(LocalDate.ofEpochDay(2023/05/10))
+                    .designation("factureeeeee")
+                    .quantity('1')
+                    .montanttc(100.32)
+                    .montantht(101.3).build();
+            factureAvoirRepository.save(factureavoir);
 
         };
         }

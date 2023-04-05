@@ -90,7 +90,7 @@ public class FactureController {
      * @param factureDto
      * @return
      */
-    @PutMapping("/facture/{id}")
+    @PutMapping("/updatefacture/{id}")
     public ResponseEntity<FactureDto> updateFacture(@PathVariable long id, @RequestBody FactureDto factureDto) {
 
         // convert DTO to Entity
@@ -109,7 +109,7 @@ public class FactureController {
      * @param id
      * @return
      */
-    @DeleteMapping("/facture/{id}")
+    @DeleteMapping("/deletefacture/{id}")
     public ResponseEntity<ApiResponse> deleteFacture(@PathVariable(name = "id") Long id) {
         factureService.deleteFacture(id);
         ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Facture deleted successfully", HttpStatus.OK);
