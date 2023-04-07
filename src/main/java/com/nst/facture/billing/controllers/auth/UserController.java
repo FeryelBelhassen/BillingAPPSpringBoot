@@ -34,7 +34,6 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-
     /**
      * This function displays the list of users
      * @return
@@ -66,22 +65,18 @@ public class UserController {
 
     /**
      * This function about create a user
-     * @param userDto
+     * @param user
      * @return
      */
-    @PostMapping("/createuser")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-
-        // convert DTO to entity
-        User userRequest = modelMapper.map(userDto, User.class);
-
-        User user = userService.createUser(userRequest);
-
-        // convert entity to DTO
-        UserDto userResponse = modelMapper.map(user, UserDto.class);
-
-        return new ResponseEntity<UserDto>(userResponse, HttpStatus.CREATED);
+   @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+       user.setUsername("");
+       user.setEmail("");
+       user.setPassword("");
+        return userService.createUser(user);
     }
+
+
 
     // change the request for DTO
     // change the response for DTO

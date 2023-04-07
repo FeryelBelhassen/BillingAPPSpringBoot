@@ -6,7 +6,6 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,16 +48,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(long id) {
-        Optional<User> result = userRepository.findById(id);
-        if(result.isPresent()) {
-            return result.get();
-        }else {
-            throw new ResourceNotFoundException("User ");
-        }
-
-//		User user = userRepository.findById(id)
-//				.orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
-        //return user;
+        return userRepository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 }
 

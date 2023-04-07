@@ -66,7 +66,7 @@ public class ProductController {
      * @param productDto
      * @return
      */
-    @PostMapping("/createProduct")
+    @PostMapping("/products")
     public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
 
         // convert DTO to entity
