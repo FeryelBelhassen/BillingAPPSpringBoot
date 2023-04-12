@@ -34,7 +34,7 @@ public class FactureAvoirServiceImpl implements FactureAvoirService {
                 .orElseThrow(() -> new ResourceNotFoundException("FactureAvoir"));
 
         factureAvoir.setNumfactureavoir(factureavoirRequest.getNumfactureavoir());
-        factureAvoir.setClientid(factureavoirRequest.getClientid());
+        factureAvoir.setClient(factureavoirRequest.getClient());
         factureAvoir.setDatefacture(factureavoirRequest.getDatefacture());
         factureAvoir.setDesignation(factureavoirRequest.getDesignation());
         factureAvoir.setQuantity(factureavoirRequest.getQuantity());

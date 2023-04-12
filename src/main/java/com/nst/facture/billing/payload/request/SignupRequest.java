@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 import java.util.Set;
 @Getter
 @Setter
@@ -23,14 +24,14 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> role;
+    private Collection<String> role;
 
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
 
 
-    public Set<String> getRole() {
+    public Collection<String> getRole() {
         return this.role;
     }
 

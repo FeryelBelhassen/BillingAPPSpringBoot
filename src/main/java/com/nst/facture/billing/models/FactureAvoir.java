@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Table(	name = "factureavoir",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "num_factureavoir"),
-                @UniqueConstraint(columnNames = "id_client"),
+                //@UniqueConstraint(columnNames = "client"),
                 @UniqueConstraint(columnNames = "date_facture"),
                 @UniqueConstraint(columnNames = "designation"),
                 @UniqueConstraint(columnNames = "quantity"),
@@ -32,14 +32,15 @@ import java.time.LocalDate;
 
 public class FactureAvoir {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idfactavoir;
 
     @Column(name = "num_factureavoir")
     private long numfactureavoir;
 
-    @Column(name = "id_client")
-    private long clientid;
+    @ManyToOne
+    @JoinColumn(name = "id_client", insertable = false, updatable = false)
+    private Client client;
 
     @Column(name = "date_facture")
     private LocalDate datefacture;

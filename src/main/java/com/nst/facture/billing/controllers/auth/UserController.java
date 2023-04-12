@@ -3,13 +3,11 @@ package com.nst.facture.billing.controllers.auth;
 
 import com.nst.facture.billing.models.User;
 import com.nst.facture.billing.payload.Dto.UserDto;
-import com.nst.facture.billing.payload.response.ApiResponse;
 import com.nst.facture.billing.repository.UserRepository;
 import com.nst.facture.billing.service.UserService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -65,15 +63,13 @@ public class UserController {
 
     /**
      * This function about create a user
-     * @param user
+     * @param userDto
      * @return
      */
-   @PostMapping("/users")
-    public User createUser(@RequestBody User user) {
-       user.setUsername("");
-       user.setEmail("");
-       user.setPassword("");
-        return userService.createUser(user);
+    @PostMapping("/adduser")
+    public User createUser(@RequestBody UserDto userDto) { //userdto
+
+        return userService.addUserFromDTO(userDto);
     }
 
 
@@ -83,22 +79,17 @@ public class UserController {
 
     /**
      * This function about update a user
-     * @param id
-     * @param userDto
+     *
+     * @param user
      * @return
      */
-    @PutMapping("/users/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable long id, @RequestBody UserDto userDto) {
-
-        // convert DTO to Entity
-        User userRequest = modelMapper.map(userDto, User.class);
-
-        User user = userService.updateUser(id, userRequest);
-
-        // entity to DTO
-        UserDto userResponse = modelMapper.map(user, UserDto.class);
-
-        return ResponseEntity.ok().body(userResponse);
+    @PutMapping("/updateuser/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable("id") Long id) {
+        user.setId(id);
+        user.setUsername(user.getUsername());
+        user.setPassword(user.getPassword());
+        user.setRoles(user.getRoles());
+        return userService.updateUser(user);
     }
 
     /**
@@ -106,22 +97,11 @@ public class UserController {
      * @param id
      * @return
      */
-    @DeleteMapping("/users/{id}")
-    public ResponseEntity<ApiResponse> deleteUser(@PathVariable(name = "id") Long id) {
+
+    @DeleteMapping("/deleteuser/{id}")
+    public void deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "User deleted successfully", HttpStatus.OK);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
-
-
-    /*   public ResponseEntity<?> demo(){
-        try {
-            return new ResponseEntity<>()
-        }catch (Exception e){
-            return new ResponseEntity<>(e.getMessage())
-        }
-    }*/
-
 
     @GetMapping("/all")
     public ResponseEntity<?> getContent() {

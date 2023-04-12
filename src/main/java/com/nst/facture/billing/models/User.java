@@ -26,7 +26,7 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email"),
                 @UniqueConstraint(columnNames = "password"),
-                //@UniqueConstraint(columnNames = "role"),
+                //@UniqueConstraint(columnNames = "roles"),
 
 
         })
@@ -52,12 +52,17 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_roles",
+   @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> appRoles = new HashSet<>();
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
+    public void addRole(Role role) {
+        this.roles.add(role);
 
+    }
 
 }

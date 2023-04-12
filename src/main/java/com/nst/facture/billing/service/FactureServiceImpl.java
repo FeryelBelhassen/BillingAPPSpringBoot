@@ -23,7 +23,7 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public Facture createFacture(Facture facture) {
+    public Facture addFacture(Facture facture) {
 
         return factureRepository.save(facture);
     }
@@ -34,7 +34,7 @@ public class FactureServiceImpl implements FactureService {
                 .orElseThrow(() -> new ResourceNotFoundException("Facture"));
 
         facture.setNumerofacture(factureRequest.getNumerofacture());
-        facture.setClientid(factureRequest.getClientid());
+        facture.setClient(factureRequest.getClient());
         facture.setDatefacture(factureRequest.getDatefacture());
         facture.setMontanttc(factureRequest.getMontanttc());
         facture.setMontantht(factureRequest.getMontantht());

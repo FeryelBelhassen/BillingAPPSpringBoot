@@ -1,11 +1,14 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.User;
+import com.nst.facture.billing.payload.Dto.UserDto;
 import com.nst.facture.billing.repository.UserRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,34 +21,35 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+
+        return (List<User>) userRepository.findAll();
+    }
+    @Override
+    public User addUserFromDTO(UserDto userDto){
+        User toAdd = new User();
+        BeanUtils.copyProperties(userDto, toAdd);
+        return userRepository.save(toAdd);
+    }
+    @Override
+    public User updateUser(User user) {
+        User toupdate= new User();
+        BeanUtils.copyProperties(user, toupdate);
+        return userRepository.save(toupdate);
     }
 
     @Override
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public void deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        user.ifPresent(u -> {
+            userRepository.delete(u);
+
+        });
     }
 
-    @Override
-    public User updateUser(long id, User userRequest) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User"));
-
-        user.setUsername(userRequest.getUsername());
-        user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword());
-        user.setAppRoles(userRequest.getAppRoles());
-        return userRepository.save(user);
-    }
-
-    @Override
-    public void deleteUser(long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User"));
-
-        userRepository.delete(user);
-    }
-
+    /*@Override
+    public User deleteAllUsers(){
+        return userRepository.delete(u);
+    }*/
     @Override
     public User getUserById(long id) {
         return userRepository.findById(id)

@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -61,28 +62,28 @@ public class SpringBootBillingApplication {
             User admin = User.builder().username("feryel")
                     .email("feryel@gmail.com")
                     .password(passwordEncoder.encode("12345678"))
-                    .appRoles(Collections.singleton(roleAdmin))
+                    .roles(Collections.singleton(roleAdmin))
                     .build();
             userRepository.save(admin);
 
             User client = User.builder().username("ahmed")
                     .email("a@gmail.com")
                     .password(passwordEncoder.encode("ahmed123"))
-                    .appRoles(Collections.singleton(role4))
+                    .roles(Collections.singleton(role4))
                     .build();
             userRepository.save(client);
 
             Product product = Product.builder().code(12345)
                     .designation("Product 1")
-                    .quantity(2)
+                   // .quantity(2)
                     .supplier("ahmed")
-                    .price(12)
+                   // .price(12)
                     .status("INSTOCK").build();
             productRepository.save(product);
 
             Facture facture = Facture.builder().numerofacture(123456)
-                    .clientid(1)
-                    .datefacture(LocalDate.ofEpochDay(2023/03/01))
+                    //.client(1)
+                    .datefacture(new Date(2022-02-13))
                     .montanttc(12.03)
                     .montantht(2.3).build();
             factureRepository.save(facture);
@@ -101,7 +102,7 @@ public class SpringBootBillingApplication {
             devisRepository.save(devis);
 
             FactureAvoir factureavoir = FactureAvoir.builder().numfactureavoir(147852)
-                    .clientid(2)
+                   // .client
                     .datefacture(LocalDate.ofEpochDay(2023/05/10))
                     .designation("factureeeeee")
                     .quantity('1')

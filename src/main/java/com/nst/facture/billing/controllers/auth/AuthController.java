@@ -111,7 +111,7 @@ public class AuthController {
                 .email(signUpRequest.getEmail())
                 .build();
 
-        Set<String> strRoles = signUpRequest.getRole();
+        Set<String> strRoles = (Set<String>) signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -153,7 +153,7 @@ public class AuthController {
             });
         }
 
-        user.setAppRoles(roles);
+        user.setRoles(roles);
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

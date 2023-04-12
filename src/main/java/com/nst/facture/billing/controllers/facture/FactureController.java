@@ -64,22 +64,14 @@ public class FactureController {
 
     /**
      * This function about create a facture
-     * @param factureDto
+     * @param facture
      * @return
      */
-   @PostMapping("/createfacture")
-    public ResponseEntity<FactureDto> createFacture(@RequestBody FactureDto factureDto) {
-
-        // convert DTO to entity
-        Facture factureRequest = modelMapper.map(factureDto, Facture.class);
-
-        Facture facture = factureService.createFacture(factureRequest);
-
-        // convert entity to DTO
-        FactureDto factureResponse = modelMapper.map(facture, FactureDto.class);
-
-        return new ResponseEntity<FactureDto>(factureResponse, HttpStatus.CREATED);
-    }
+   @PostMapping("/addfacture")
+   public Facture addFacture(@RequestBody Facture facture){
+       return factureRepository.save(facture);
+      // return new Facture (returnStatement,HttpStatus.ACCEPTED);
+   }
 
     // change the request for DTO
     // change the response for DTO

@@ -7,7 +7,7 @@ import java.util.List;
 public interface FactureService {
     public List<Facture> getAllFactures();
 
-    Facture createFacture(Facture facture);
+    Facture addFacture(Facture facture);
 
     Facture updateFacture(long id, Facture facture);
 

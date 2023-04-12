@@ -1,6 +1,7 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.User;
+import com.nst.facture.billing.payload.Dto.UserDto;
 
 import java.util.List;
 
@@ -10,11 +11,13 @@ import java.util.List;
 public interface UserService  {
     List<User> getAllUsers();
 
-    User createUser(User user);
+    User addUserFromDTO(UserDto userDto);
+    User updateUser(User user);
 
-    User updateUser(long id, User user);
-
-    void deleteUser(long id);
+    void deleteUser( Long id);
 
     User getUserById(long id);
+
+    //User deleteAllUsers();
+
 }
