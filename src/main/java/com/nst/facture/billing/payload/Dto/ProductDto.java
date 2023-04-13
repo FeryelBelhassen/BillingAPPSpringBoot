@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDto {
-    private String code;
+    private Long code;
     private String designation;
     private Long quantity;
     private String supplier;

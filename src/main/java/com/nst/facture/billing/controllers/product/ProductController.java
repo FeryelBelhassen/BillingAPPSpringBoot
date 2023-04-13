@@ -96,11 +96,11 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    @DeleteMapping("/deleteall")
+    /*@DeleteMapping("/deleteall")
     public void deleteAllProducts() {
 
         productService.deleteAll();
-    }
+    }*/
 
 
 
