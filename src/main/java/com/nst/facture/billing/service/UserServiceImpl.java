@@ -31,11 +31,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(toAdd);
     }
     @Override
-    public User updateUser(User user) {
-        User toupdate= new User();
-        BeanUtils.copyProperties(user, toupdate);
-        return userRepository.save(toupdate);
+    public User updateUser(Long id, User user) {
+        User userDB =getUserById(id);
+        userDB.setUsername(user.getUsername());
+        userDB.setEmail(user.getEmail());
+        userDB.setPassword(user.getPassword());
+        userDB.setRoles(user.getRoles());
+        User updatedBook = getUserById(id);
+
+        return updatedBook;
     }
+
 
     @Override
     public void deleteUser(Long id) {
@@ -44,6 +50,11 @@ public class UserServiceImpl implements UserService {
             userRepository.delete(u);
 
         });
+    }
+
+    @Override
+    public void deleteAll(){
+        userRepository.deleteAll();
     }
 
     /*@Override

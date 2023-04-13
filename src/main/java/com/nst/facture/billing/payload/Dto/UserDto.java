@@ -16,6 +16,4 @@ public class UserDto {
     private String password;
     private Set<Role> roles;
 
-    public void setId(int id) {
-    }
 }

@@ -37,7 +37,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private long code;
+    private Long code;
 
     @NotBlank
     @Size(max = 120)
@@ -52,8 +52,7 @@ public class Product {
 
     private Long price;
 
-    @NotBlank
-    @Size(max = 120)
-    private String status;
+
+    //private List status;
 
 }

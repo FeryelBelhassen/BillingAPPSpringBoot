@@ -8,6 +8,7 @@ import com.nst.facture.billing.service.UserService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -41,10 +42,6 @@ public class UserController {
         return userService.getAllUsers();
 
     }
-    /*public List<UserDto> getAllUsers() {
-       return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class))
-                .collect(Collectors.toList());
-    }*/
 
     /**
      * This function for get a user
@@ -67,29 +64,23 @@ public class UserController {
      * @return
      */
     @PostMapping("/adduser")
-    public User createUser(@RequestBody UserDto userDto) { //userdto
+    public User createUser(@RequestBody UserDto userDto) {
 
         return userService.addUserFromDTO(userDto);
     }
 
 
-
-    // change the request for DTO
-    // change the response for DTO
-
     /**
      * This function about update a user
-     *
-     * @param user
+     * @param id , userDetails
      * @return
      */
-    @PutMapping("/updateuser/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable("id") Long id) {
-        user.setId(id);
-        user.setUsername(user.getUsername());
-        user.setPassword(user.getPassword());
-        user.setRoles(user.getRoles());
-        return userService.updateUser(user);
+
+    @PutMapping("updateuser/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user){
+
+        User u = userService.updateUser(id, user);
+        return new ResponseEntity<User>(u, HttpStatus.OK);
     }
 
     /**
@@ -100,7 +91,13 @@ public class UserController {
 
     @DeleteMapping("/deleteuser/{id}")
     public void deleteUser(@PathVariable("id") Long id) {
+
         userService.deleteUser(id);
+    }
+
+    @DeleteMapping("/deleteall")
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
     }
 
     @GetMapping("/all")

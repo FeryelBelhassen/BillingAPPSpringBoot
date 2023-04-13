@@ -1,8 +1,10 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Product;
+import com.nst.facture.billing.payload.Dto.ProductDto;
 import com.nst.facture.billing.repository.ProductRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,39 +20,45 @@ public class ProductServiceImpl implements ProductService {
         this.productRepository = productRepository;
     }
     @Override
-    public List<Product> getProducts() {
+    public List<Product> getAllProducts() {
 
-        return productRepository.findAll();
+        return (List<Product>) productRepository.findAll();
     }
 
     @Override
-    public Product createProduct(Product product) {
+     public Product addProductFromDTO(ProductDto productDto){
+            Product toAdd = new Product();
+            BeanUtils.copyProperties(productDto, toAdd);
+            return productRepository.save(toAdd);
+    }
 
-        return productRepository.save(product);
+
+    @Override
+    public Product updateProduct(Long id, Product product) {
+        Product productDB =getProductById(id);
+        productDB.setCode(product.getCode());
+        productDB.setDesignation(product.getDesignation());
+        productDB.setQuantity(product.getQuantity());
+        productDB.setPrice(product.getPrice());
+        productDB.setSupplier(product.getSupplier());
+        Product updatedProduct = getProductById(id);
+
+        return updatedProduct;
     }
 
     @Override
-    public Product updateProduct(long id, Product productRequest) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product"));
+    public void deleteProduct(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        product.ifPresent(u -> {
+            productRepository.delete(u);
 
-        product.setCode(productRequest.getCode());
-        product.setDesignation(productRequest.getDesignation());
-        product.setQuantity(productRequest.getQuantity());
-        product.setSupplier(productRequest.getSupplier());
-        product.setPrice(productRequest.getPrice());
-        product.setStatus(productRequest.getStatus());
-        return productRepository.save(product);
+        });
     }
 
     @Override
-    public void deleteProduct(long id) {
-        Product product = productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product"));
-
-        productRepository.delete(product);
+    public void deleteAll(){
+        productRepository.deleteAll();
     }
-
     @Override
     public Product getProductById(long id) {
         Optional<Product> result = productRepository.findById(id);

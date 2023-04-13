@@ -3,7 +3,6 @@ package com.nst.facture.billing.controllers.product;
 
 import com.nst.facture.billing.models.Product;
 import com.nst.facture.billing.payload.Dto.ProductDto;
-import com.nst.facture.billing.payload.response.ApiResponse;
 import com.nst.facture.billing.service.ProductService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
@@ -42,7 +41,7 @@ public class ProductController {
     }*/
     @GetMapping("/products")
     public List<Product> allProducts(){
-        return productService.getProducts();
+        return productService.getAllProducts();
 
     }
 
@@ -63,44 +62,27 @@ public class ProductController {
 
     /**
      * This function about create a product
+     *
      * @param productDto
      * @return
      */
-    @PostMapping("/products")
-    public ResponseEntity<ProductDto> createProduct(@RequestBody ProductDto productDto) {
+    @PostMapping("/addproduct")
+    public Product createProduct(@RequestBody ProductDto productDto) {
 
-        // convert DTO to entity
-        Product productRequest = modelMapper.map(productDto, Product.class);
-
-        Product product = productService.createProduct(productRequest);
-
-        // convert entity to DTO
-        ProductDto productResponse = modelMapper.map(product, ProductDto.class);
-
-        return new ResponseEntity<ProductDto>(productResponse, HttpStatus.CREATED);
+        return productService.addProductFromDTO(productDto);
     }
-
-    // change the request for DTO
-    // change the response for DTO
 
     /**
      * This function about update a product
      * @param id
-     * @param productDto
+     * @param product
      * @return
      */
-    @PutMapping("/products/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable long id, @RequestBody ProductDto productDto) {
+    @PutMapping("updateproduct/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
 
-        // convert DTO to Entity
-        Product productRequest = modelMapper.map(productDto, Product.class);
-
-        Product product = productService.updateProduct(id, productRequest);
-
-        // entity to DTO
-        ProductDto productResponse = modelMapper.map(product, ProductDto.class);
-
-        return ResponseEntity.ok().body(productResponse);
+        Product p = productService.updateProduct(id, product);
+        return new ResponseEntity<Product>(p, HttpStatus.OK);
     }
 
     /**
@@ -108,12 +90,18 @@ public class ProductController {
      * @param id
      * @return
      */
-    @DeleteMapping("/products/{id}")
-    public ResponseEntity<ApiResponse> deleteProduct(@PathVariable(name = "id") Long id) {
+    @DeleteMapping("/deleteproduct/{id}")
+    public void deleteProduct(@PathVariable("id") Long id) {
+
         productService.deleteProduct(id);
-        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Product deleted successfully", HttpStatus.OK);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
+
+    @DeleteMapping("/deleteall")
+    public void deleteAllProducts() {
+
+        productService.deleteAll();
+    }
+
 
 
 

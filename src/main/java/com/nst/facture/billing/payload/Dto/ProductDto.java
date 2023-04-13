@@ -1,11 +1,17 @@
 package com.nst.facture.billing.payload.Dto;
 
+import lombok.*;
+
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto {
-    private long id;
     private String code;
     private String designation;
-    private long quantity;
+    private Long quantity;
     private String supplier;
-    private long price;
-    private String status;
+    private Long price;
+    //private List status;
 }

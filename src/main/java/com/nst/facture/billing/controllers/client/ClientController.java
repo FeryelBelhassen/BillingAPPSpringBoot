@@ -3,7 +3,6 @@ package com.nst.facture.billing.controllers.client;
 
 import com.nst.facture.billing.models.Client;
 import com.nst.facture.billing.payload.Dto.ClientDto;
-import com.nst.facture.billing.payload.response.ApiResponse;
 import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.service.ClientService;
 import io.swagger.annotations.Api;
@@ -53,14 +52,14 @@ public class ClientController {
      * @param id
      * @return
      */
-    @GetMapping("/client/{id}")
+    @GetMapping("/clients/{id}")
     public ResponseEntity<ClientDto> getClientById(@PathVariable(name = "id") Long id) {
         Client client = clientService.getClientById(id);
 
         // convert entity to DTO
-        ClientDto postResponse = modelMapper.map(client, ClientDto.class);
+        ClientDto clientResponse = modelMapper.map(client, ClientDto.class);
 
-        return ResponseEntity.ok().body(postResponse);
+        return ResponseEntity.ok().body(clientResponse);
     }
 
     /**
@@ -68,41 +67,23 @@ public class ClientController {
      * @param clientDto
      * @return
      */
-   @PostMapping("/createclient")
-    public ResponseEntity<ClientDto> createClient(@RequestBody ClientDto clientDto) {
+    @PostMapping("/addclient")
+    public Client createClient(@RequestBody ClientDto clientDto) {
 
-        // convert DTO to entity
-        Client clientRequest = modelMapper.map(clientDto, Client.class);
-
-        Client client = clientService.createClient(clientRequest);
-
-        // convert entity to DTO
-        ClientDto clientResponse = modelMapper.map(client, ClientDto.class);
-
-        return new ResponseEntity<ClientDto>(clientResponse, HttpStatus.CREATED);
+        return clientService.addClientFromDTO(clientDto);
     }
-
-    // change the request for DTO
-    // change the response for DTO
 
     /**
      * This function about update a client
      * @param id
-     * @param clientDto
+     * @param client
      * @return
      */
-    @PutMapping("/client/{id}")
-    public ResponseEntity<ClientDto> updateClient(@PathVariable long id, @RequestBody ClientDto clientDto) {
+    @PutMapping("updateclient/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable("id") Long id, @RequestBody Client client){
 
-        // convert DTO to Entity
-        Client clientRequest = modelMapper.map(clientDto, Client.class);
-
-        Client client = clientService.updateClient(id, clientRequest);
-
-        // entity to DTO
-        ClientDto clientResponse = modelMapper.map(client, ClientDto.class);
-
-        return ResponseEntity.ok().body(clientResponse);
+        Client c = clientService.updateClient(id, client);
+        return new ResponseEntity<Client>(c, HttpStatus.OK);
     }
 
     /**
@@ -110,11 +91,10 @@ public class ClientController {
      * @param id
      * @return
      */
-    @DeleteMapping("/client/{id}")
-    public ResponseEntity<ApiResponse> deleteClient(@PathVariable(name = "id") Long id) {
+    @DeleteMapping("/deleteclient/{id}")
+    public void deleteClient(@PathVariable("id") Long id) {
+
         clientService.deleteClient(id);
-        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Client deleted successfully", HttpStatus.OK);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
 
 

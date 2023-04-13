@@ -73,12 +73,12 @@ public class SpringBootBillingApplication {
                     .build();
             userRepository.save(client);
 
-            Product product = Product.builder().code(12345)
+            Product product = Product.builder().code(12547896L)
                     .designation("Product 1")
-                   // .quantity(2)
+                    .quantity(2L)
                     .supplier("ahmed")
-                   // .price(12)
-                    .status("INSTOCK").build();
+                    .price(12L).build();
+                    //.status.build();
             productRepository.save(product);
 
             Facture facture = Facture.builder().numerofacture(123456)

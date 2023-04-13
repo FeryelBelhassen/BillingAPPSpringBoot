@@ -12,12 +12,13 @@ public interface UserService  {
     List<User> getAllUsers();
 
     User addUserFromDTO(UserDto userDto);
-    User updateUser(User user);
+    User updateUser(Long id, User user);
 
     void deleteUser( Long id);
 
+    void deleteAll();
+
     User getUserById(long id);
 
-    //User deleteAllUsers();
 
 }
