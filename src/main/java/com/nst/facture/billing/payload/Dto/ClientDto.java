@@ -1,5 +1,6 @@
 package com.nst.facture.billing.payload.Dto;
 
+import com.nst.facture.billing.models.Facture;
 import lombok.*;
 
 @Data
@@ -13,4 +14,5 @@ public class ClientDto {
     private String password;
     private String adresse;
     private String telephone;
+    private Facture facture;
 }

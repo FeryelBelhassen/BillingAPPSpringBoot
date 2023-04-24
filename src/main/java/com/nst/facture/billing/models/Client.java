@@ -1,11 +1,14 @@
 package com.nst.facture.billing.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -58,6 +61,11 @@ public class Client {
     @NotBlank
     @Size(max = 120)
     private String telephone;
+
+    @OneToMany(mappedBy = "client")
+    @JsonIgnore
+    private List<Facture> factures = new ArrayList<>();
+
 
 
 }

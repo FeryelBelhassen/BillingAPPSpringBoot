@@ -1,6 +1,7 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Facture;
+import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.repository.FactureRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,12 @@ import java.util.Optional;
 @Service
 public class FactureServiceImpl implements FactureService {
     private final FactureRepository factureRepository;
+    private final ClientRepository clientRepository;
 
-    public FactureServiceImpl(FactureRepository factureRepository) {
+    public FactureServiceImpl(FactureRepository factureRepository, ClientRepository clientRepository) {
         super();
         this.factureRepository = factureRepository;
+        this.clientRepository = clientRepository;
     }
     @Override
     public List<Facture> getAllFactures() {
@@ -24,7 +27,9 @@ public class FactureServiceImpl implements FactureService {
 
     @Override
     public Facture addFacture(Facture facture) {
-
+       /* Client client = clientRepository.findById(facture.getClient().getId()).orElseThrow(() -> new EntityNotFoundException("Client not found"));
+        client.getFactures().add(facture);
+        facture.setClient(client);*/
         return factureRepository.save(facture);
     }
 
@@ -35,6 +40,7 @@ public class FactureServiceImpl implements FactureService {
 
         facture.setNumerofacture(factureRequest.getNumerofacture());
         facture.setClient(factureRequest.getClient());
+        facture.setProductList(factureRequest.getProductList());
         facture.setDatefacture(factureRequest.getDatefacture());
         facture.setMontanttc(factureRequest.getMontanttc());
         facture.setMontantht(factureRequest.getMontantht());

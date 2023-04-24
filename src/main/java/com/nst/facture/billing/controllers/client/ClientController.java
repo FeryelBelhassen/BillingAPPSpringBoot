@@ -8,11 +8,11 @@ import com.nst.facture.billing.service.ClientService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8081")
@@ -34,13 +34,6 @@ public class ClientController {
      * This function displays the list of clients
      * @return
      */
-    /*@GetMapping
-    public List<ClientDto> getAllClients() {
-
-        return clientService.getAllClients().stream().map(client -> modelMapper.map(client, ClientDto.class))
-                .collect(Collectors.toList());
-    }*/
-
     @GetMapping("/clients")
     public List<Client> getClients(){
         return clientService.getAllClients();
@@ -53,14 +46,15 @@ public class ClientController {
      * @return
      */
     @GetMapping("/clients/{id}")
-    public ResponseEntity<ClientDto> getClientById(@PathVariable(name = "id") Long id) {
-        Client client = clientService.getClientById(id);
-
-        // convert entity to DTO
-        ClientDto clientResponse = modelMapper.map(client, ClientDto.class);
-
-        return ResponseEntity.ok().body(clientResponse);
+    public ResponseEntity<Client> getClientById(@PathVariable(name = "id") Long id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if (client.isPresent()) {
+            return (ResponseEntity<Client>) ResponseEntity.ok(client.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     /**
      * This function about create a client
@@ -75,15 +69,24 @@ public class ClientController {
 
     /**
      * This function about update a client
+     *
      * @param id
      * @param client
      * @return
      */
     @PutMapping("updateclient/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable("id") Long id, @RequestBody Client client){
+    public Client updateClient(@PathVariable("id") Long id, @RequestBody Client client){
 
-        Client c = clientService.updateClient(id, client);
-        return new ResponseEntity<Client>(c, HttpStatus.OK);
+        Client existingClient = clientRepository.findById(id).orElse(null);
+        if (existingClient != null) {
+            existingClient.setUsername(client.getUsername());
+            existingClient.setEmail(client.getEmail());
+            existingClient.setAdresse(client.getAdresse());
+            existingClient.setTelephone(client.getTelephone());
+            existingClient.setFactures(client.getFactures());
+            return clientRepository.save(existingClient);
+        }
+        return null;
     }
 
     /**

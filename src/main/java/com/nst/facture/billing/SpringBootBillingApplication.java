@@ -81,19 +81,20 @@ public class SpringBootBillingApplication {
                     //.status.build();
             productRepository.save(product);
 
-            Facture facture = Facture.builder().numerofacture(123456)
-                    //.client(1)
-                    .datefacture(new Date(2022-02-13))
-                    .montanttc(12.03)
-                    .montantht(2.3).build();
-            factureRepository.save(facture);
-
             Client client1= Client.builder().username("sami")
                     .email("sami@gmail.com")
                     .password("sami1478")
                     .adresse("NABEUL")
                     .telephone("52021780").build();
             clientRepository.save(client1);
+
+            Facture facture = Facture.builder().numerofacture(123456L)
+                    .client(client1)
+                    .datefacture(new Date(2022-02-13))
+                   // .productList((List<Product>) product)
+                    .montanttc(12.03)
+                    .montantht(2.3).build();
+            factureRepository.save(facture);
 
             Devis devis= Devis.builder().numerodevis("1236580")
                     .datedevis(LocalDate.ofEpochDay(2023/04/01))

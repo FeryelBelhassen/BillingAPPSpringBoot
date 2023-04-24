@@ -95,11 +95,6 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @DeleteMapping("/deleteall")
-    public void deleteAllUsers() {
-        userRepository.deleteAll();
-    }
-
     @GetMapping("/all")
     public ResponseEntity<?> getContent() {
         return ResponseEntity.ok("Public content goes here");

@@ -4,12 +4,14 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(	name = "factures",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "numero_facture"),
-                //@UniqueConstraint(columnNames = "client"),
+                //@UniqueConstraint(columnNames = "client_id"),
+                //@UniqueConstraint(columnNames = "code"),
                 @UniqueConstraint(columnNames = "date_facture"),
                 @UniqueConstraint(columnNames = "montant_ttc"),
                 @UniqueConstraint(columnNames = "montant_ht"),
@@ -31,13 +33,14 @@ import java.util.Date;
 public class Facture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
 
     @Column(name = "numero_facture")
-    private long numerofacture;
+    private Long numerofacture;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
     private Client client;
 
     //@DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -46,10 +49,14 @@ public class Facture {
     private Date datefacture;
 
     @Column(name = "montant_ttc")
-    private Double montanttc;
+    private double montanttc;
+
+    @ManyToMany
+    @JoinColumn(name = "product")
+    private List<Product> productList;
 
     @Column(name = "montant_ht")
-    private Double montantht;
+    private double montantht;
 
 
 }

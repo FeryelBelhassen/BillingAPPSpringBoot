@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
     @Override
     public void deleteUser(Long id) {
         Optional<User> user = userRepository.findById(id);
@@ -52,15 +53,6 @@ public class UserServiceImpl implements UserService {
         });
     }
 
-    @Override
-    public void deleteAll(){
-        userRepository.deleteAll();
-    }
-
-    /*@Override
-    public User deleteAllUsers(){
-        return userRepository.delete(u);
-    }*/
     @Override
     public User getUserById(long id) {
         return userRepository.findById(id)

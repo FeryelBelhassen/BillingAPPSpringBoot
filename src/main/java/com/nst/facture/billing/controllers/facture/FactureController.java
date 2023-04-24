@@ -35,12 +35,6 @@ public class FactureController {
      * This function displays the list of factures
      * @return
      */
-    /*@GetMapping("/factures")
-    public List<FactureDto> getAllFactures() {
-
-        return factureService.getAllFactures().stream().map(facture -> modelMapper.map(facture, FactureDto.class))
-                .collect(Collectors.toList());
-    }*/
 
     @GetMapping("/factures")
     public List<Facture> getAllFactures(){
