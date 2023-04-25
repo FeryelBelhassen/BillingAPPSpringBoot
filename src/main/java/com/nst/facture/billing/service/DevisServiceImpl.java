@@ -1,8 +1,10 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Devis;
+import com.nst.facture.billing.payload.Dto.DevisDto;
 import com.nst.facture.billing.repository.DevisRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,46 +19,45 @@ public class DevisServiceImpl implements DevisService {
         this.devisRepository = devisRepository;
     }
     @Override
-    public List <Devis> getAllDevis() {
+    public List<Devis> getAllDevis() {
 
         return (List<Devis>) devisRepository.findAll();
     }
 
     @Override
-    public Devis createDevis(Devis devis) {
-
-        return devisRepository.save(devis);
+    public Devis addDevisFromDTO(DevisDto devisDto){
+        Devis toAdd = new Devis();
+        BeanUtils.copyProperties(devisDto, toAdd);
+        return devisRepository.save(toAdd);
     }
 
     @Override
-    public Devis updateDevis(long id, Devis devisRequest) {
-        Devis devis = devisRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Devis"));
+    public Devis updateDevis(Long id, Devis devis) {
+        Devis devisDB =getDevisById(id);
+        devisDB.setNumerodevis(devis.getNumerodevis());
+        devisDB.setDatedevis(devis.getDatedevis());
+        devisDB.setQuantity(devis.getQuantity());
+        devisDB.setPrice(devis.getPrice());
+        Devis updatedDevis = getDevisById(id);
 
-        devis.setNumerodevis(devisRequest.getNumerodevis());
-        devis.setDatedevis(devisRequest.getDatedevis());
-        devis.setQuantity(devisRequest.getQuantity());
-        devis.setPrice(devisRequest.getPrice());
-        return devisRepository.save(devis);
+        return updatedDevis;
     }
 
-    @Override
-    public void deleteDevis(long id) {
-        Devis devis = devisRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Devis"));
 
-        devisRepository.delete(devis);
+
+    @Override
+    public void deleteDevis(Long id) {
+        Optional<Devis> devis = devisRepository.findById(id);
+        devis.ifPresent(d -> {
+            devisRepository.delete(d);
+
+        });
     }
 
     @Override
     public Devis getDevisById(long id) {
-        Optional<Devis> result = devisRepository.findById(id);
-        if(result.isPresent()) {
-            return result.get();
-        }else {
-            throw new ResourceNotFoundException("Devis");
-        }
+        return devisRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Devis not found"));
     }
-
 
 }

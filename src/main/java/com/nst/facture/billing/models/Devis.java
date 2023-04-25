@@ -29,10 +29,10 @@ import java.util.Date;
 public class Devis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "numero_devis")
-    private String numerodevis;
+    private Long numerodevis;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "date_devis")

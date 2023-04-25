@@ -95,7 +95,7 @@ public class SpringBootBillingApplication {
                     .montantht(2.3).build();
             factureRepository.save(facture);
 
-            Devis devis= Devis.builder().numerodevis("1236580")
+            Devis devis= Devis.builder().numerodevis(1236580L)
                     .datedevis(new Date(01-04-2023))
                     .quantity(2L)
                     .price(150.23).build();
