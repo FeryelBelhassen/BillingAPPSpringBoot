@@ -3,7 +3,6 @@ package com.nst.facture.billing.controllers.facture;
 
 import com.nst.facture.billing.models.FactureAvoir;
 import com.nst.facture.billing.payload.Dto.FactureAvoirDto;
-import com.nst.facture.billing.payload.response.ApiResponse;
 import com.nst.facture.billing.repository.FactureAvoirRepository;
 import com.nst.facture.billing.service.FactureAvoirService;
 import io.swagger.annotations.Api;
@@ -35,26 +34,19 @@ public class FactureAvoirController {
      * This function displays the list of factures
      * @return
      */
-    /*@GetMapping("/factures")
-    public List<FactureDto> getAllFactures() {
-
-        return factureService.getAllFactures().stream().map(facture -> modelMapper.map(facture, FactureDto.class))
-                .collect(Collectors.toList());
-    }*/
-
-    @GetMapping("/factureavoir")
-    public List<FactureAvoir> getAllFacturesAvoir(){
+    @GetMapping("/facturesavoir")
+    public List<FactureAvoir> allFacturesavoir(){
         return factureAvoirService.getAllFacturesAvoir();
 
     }
     /**
-     * This function for get a factureavoir
-     * @param idfactavoir
+     * This function for get a facture
+     * @param id
      * @return
      */
-    @GetMapping("/factureavoir/{idfactavoir}")
-    public ResponseEntity<FactureAvoirDto> getFactureById(@PathVariable(name = "id") Long idfactavoir) {
-        FactureAvoir factureAvoir = factureAvoirService.getFactureAvoirById(idfactavoir);
+    @GetMapping("/factureavoir/{id}")
+    public ResponseEntity<FactureAvoirDto> getFactureAvoirById(@PathVariable(name = "id") Long id) {
+        FactureAvoir factureAvoir = factureAvoirService.getFactureAvoirById(id);
 
         // convert entity to DTO
         FactureAvoirDto postResponse = modelMapper.map(factureAvoir, FactureAvoirDto.class);
@@ -63,58 +55,39 @@ public class FactureAvoirController {
     }
 
     /**
-     * This function about create a factureavoir
+     * This function about create a facture
      * @param factureAvoirDto
      * @return
      */
-   @PostMapping("/createfactureavoir")
-    public ResponseEntity<FactureAvoirDto> createFacture(@RequestBody FactureAvoirDto factureAvoirDto) {
 
-        // convert DTO to entity
-        FactureAvoir factureavoirRequest = modelMapper.map(factureAvoirDto, FactureAvoir.class);
+    @PostMapping("/addfactureavoir")
+    public FactureAvoir createFactureAvoir(@RequestBody FactureAvoirDto factureAvoirDto) {
 
-        FactureAvoir factureAvoir = factureAvoirService.createFactureAvoir(factureavoirRequest);
-
-        // convert entity to DTO
-        FactureAvoirDto factureavoirResponse = modelMapper.map(factureAvoir, FactureAvoirDto.class);
-
-        return new ResponseEntity<FactureAvoirDto>(factureavoirResponse, HttpStatus.CREATED);
-    }
-
-    // change the request for DTO
-    // change the response for DTO
-
-    /**
-     * This function about update a facture
-     * @param idfactavoir
-     * @param factureAvoirDto
-     * @return
-     */
-    @PutMapping("/updatefactureavoir/{ididfactavoir}")
-    public ResponseEntity<FactureAvoirDto> updateFactureAvoir(@PathVariable long idfactavoir, @RequestBody FactureAvoirDto factureAvoirDto) {
-
-        // convert DTO to Entity
-        FactureAvoir factureavoirRequest = modelMapper.map(factureAvoirDto, FactureAvoir.class);
-
-        FactureAvoir factureAvoir = factureAvoirService.updateFactureAvoir(idfactavoir, factureavoirRequest);
-
-        // entity to DTO
-        FactureAvoirDto factureavoirResponse = modelMapper.map(factureAvoir, FactureAvoirDto.class);
-
-        return ResponseEntity.ok().body(factureavoirResponse);
+        return factureAvoirService.addFactureAvoirFromDTO(factureAvoirDto);
     }
 
     /**
-     * This function about delete a facture
-     * @param idfactavoir
+     * This function about update a facture avoir
+     * @param id
+     * @param facture
      * @return
      */
-    @DeleteMapping("/deletefactureavoir/{idfactavoir}")
-    public ResponseEntity<ApiResponse> deleteFactureAvoir(@PathVariable(name = "idfactavoir") Long idfactavoir) {
-        factureAvoirService.deleteFactureAvoir(idfactavoir);
-        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "FactureAvoir deleted successfully", HttpStatus.OK);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
+    @PutMapping("updatefactureavoir/{id}")
+    public ResponseEntity<FactureAvoir> updateFactureAvoir(@PathVariable("id") Long id, @RequestBody FactureAvoir factureAvoir){
+
+        FactureAvoir fa= factureAvoirService.updateFactureAvoir(id, factureAvoir);
+        return new ResponseEntity<FactureAvoir>(fa, HttpStatus.OK);
     }
 
+    /**
+     * This function about delete a facture avoir
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/deletefactureavoir/{id}")
+    public void deleteFactureAvoir(@PathVariable("id") Long id) {
+
+        factureAvoirService.deleteFactureAvoir(id);
+    }
 
 }

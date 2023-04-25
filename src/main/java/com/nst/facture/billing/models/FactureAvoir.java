@@ -38,8 +38,8 @@ public class FactureAvoir {
     @Column(name = "num_factureavoir")
     private long numfactureavoir;
 
-    @ManyToOne
-    @JoinColumn(name = "id_client", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_username")
     private Client client;
 
     @Column(name = "date_facture")

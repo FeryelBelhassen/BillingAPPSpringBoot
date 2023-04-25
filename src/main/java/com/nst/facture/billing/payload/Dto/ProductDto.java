@@ -13,5 +13,5 @@ public class ProductDto {
     private Long quantity;
     private String supplier;
     private Long price;
-    //private List status;
+
 }

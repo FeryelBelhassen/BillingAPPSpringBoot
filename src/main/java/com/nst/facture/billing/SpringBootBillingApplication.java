@@ -78,7 +78,6 @@ public class SpringBootBillingApplication {
                     .quantity(2L)
                     .supplier("ahmed")
                     .price(12L).build();
-                    //.status.build();
             productRepository.save(product);
 
             Client client1= Client.builder().username("sami")
@@ -91,22 +90,22 @@ public class SpringBootBillingApplication {
             Facture facture = Facture.builder().numerofacture(123456L)
                     .client(client1)
                     .datefacture(new Date(2022-02-13))
-                   // .productList((List<Product>) product)
+
                     .montanttc(12.03)
                     .montantht(2.3).build();
             factureRepository.save(facture);
 
             Devis devis= Devis.builder().numerodevis("1236580")
-                    .datedevis(LocalDate.ofEpochDay(2023/04/01))
-                    .quantity(2)
+                    .datedevis(new Date(01-04-2023))
+                    .quantity(2L)
                     .price(150.23).build();
             devisRepository.save(devis);
 
             FactureAvoir factureavoir = FactureAvoir.builder().numfactureavoir(147852)
-                   // .client
+                    .client(client1)
                     .datefacture(LocalDate.ofEpochDay(2023/05/10))
                     .designation("factureeeeee")
-                    .quantity('1')
+                    .quantity(1)
                     .montanttc(100.32)
                     .montantht(101.3).build();
             factureAvoirRepository.save(factureavoir);

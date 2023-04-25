@@ -1,9 +1,11 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Facture;
+import com.nst.facture.billing.payload.Dto.FactureDto;
 import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.repository.FactureRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,44 +28,41 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public Facture addFacture(Facture facture) {
-       /* Client client = clientRepository.findById(facture.getClient().getId()).orElseThrow(() -> new EntityNotFoundException("Client not found"));
-        client.getFactures().add(facture);
-        facture.setClient(client);*/
-        return factureRepository.save(facture);
+    public Facture addFactureFromDTO(FactureDto factureDto){
+        Facture toAdd = new Facture();
+        BeanUtils.copyProperties(factureDto, toAdd);
+        return factureRepository.save(toAdd);
     }
 
     @Override
-    public Facture updateFacture(long id, Facture factureRequest) {
-        Facture facture = factureRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Facture"));
+    public Facture updateFacture(Long id, Facture facture) {
+        Facture factureDB =getFactureById(id);
+        factureDB.setNumerofacture(facture.getNumerofacture());
+        factureDB.setDatefacture(facture.getDatefacture());
+        factureDB.setClient(facture.getClient());
+        factureDB.setProductList(facture.getProductList());
+        factureDB.setMontanttc(facture.getMontanttc());
+        factureDB.setMontantht(facture.getMontantht());
+        Facture updatedFacture = getFactureById(id);
 
-        facture.setNumerofacture(factureRequest.getNumerofacture());
-        facture.setClient(factureRequest.getClient());
-        facture.setProductList(factureRequest.getProductList());
-        facture.setDatefacture(factureRequest.getDatefacture());
-        facture.setMontanttc(factureRequest.getMontanttc());
-        facture.setMontantht(factureRequest.getMontantht());
-        return factureRepository.save(facture);
+        return updatedFacture;
     }
 
-    @Override
-    public void deleteFacture(long id) {
-        Facture facture = factureRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Facture"));
 
-        factureRepository.delete(facture);
+
+    @Override
+    public void deleteFacture(Long id) {
+        Optional<Facture> facture = factureRepository.findById(id);
+        facture.ifPresent(f -> {
+            factureRepository.delete(f);
+
+        });
     }
 
     @Override
     public Facture getFactureById(long id) {
-        Optional<Facture> result = factureRepository.findById(id);
-        if(result.isPresent()) {
-            return result.get();
-        }else {
-            throw new ResourceNotFoundException("Facture ");
-        }
+        return factureRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Facture not found"));
     }
-
 
 }

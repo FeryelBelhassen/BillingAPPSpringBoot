@@ -1,9 +1,10 @@
 package com.nst.facture.billing.models;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(	name = "devis",
@@ -33,11 +34,12 @@ public class Devis {
     @Column(name = "numero_devis")
     private String numerodevis;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(name = "date_devis")
-    private LocalDate datedevis;
+    private Date datedevis;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Long quantity;
 
     @Column(name = "price")
     private Double price;

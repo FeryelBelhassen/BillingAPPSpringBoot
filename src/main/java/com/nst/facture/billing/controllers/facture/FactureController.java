@@ -3,7 +3,6 @@ package com.nst.facture.billing.controllers.facture;
 
 import com.nst.facture.billing.models.Facture;
 import com.nst.facture.billing.payload.Dto.FactureDto;
-import com.nst.facture.billing.payload.response.ApiResponse;
 import com.nst.facture.billing.repository.FactureRepository;
 import com.nst.facture.billing.service.FactureService;
 import io.swagger.annotations.Api;
@@ -37,7 +36,7 @@ public class FactureController {
      */
 
     @GetMapping("/factures")
-    public List<Facture> getAllFactures(){
+    public List<Facture> allFactures(){
         return factureService.getAllFactures();
 
     }
@@ -58,36 +57,27 @@ public class FactureController {
 
     /**
      * This function about create a facture
-     * @param facture
+     * @param factureDto
      * @return
      */
-   @PostMapping("/addfacture")
-   public Facture addFacture(@RequestBody Facture facture){
-       return factureRepository.save(facture);
-      // return new Facture (returnStatement,HttpStatus.ACCEPTED);
-   }
 
-    // change the request for DTO
-    // change the response for DTO
+    @PostMapping("/addfacture")
+    public Facture createFacture(@RequestBody FactureDto factureDto) {
+
+        return factureService.addFactureFromDTO(factureDto);
+    }
 
     /**
      * This function about update a facture
      * @param id
-     * @param factureDto
+     * @param facture
      * @return
      */
-    @PutMapping("/updatefacture/{id}")
-    public ResponseEntity<FactureDto> updateFacture(@PathVariable long id, @RequestBody FactureDto factureDto) {
+    @PutMapping("updatefacture/{id}")
+    public ResponseEntity<Facture> updateFacture(@PathVariable("id") Long id, @RequestBody Facture facture){
 
-        // convert DTO to Entity
-        Facture factureRequest = modelMapper.map(factureDto, Facture.class);
-
-        Facture facture = factureService.updateFacture(id, factureRequest);
-
-        // entity to DTO
-        FactureDto factureResponse = modelMapper.map(facture, FactureDto.class);
-
-        return ResponseEntity.ok().body(factureResponse);
+        Facture f= factureService.updateFacture(id, facture);
+        return new ResponseEntity<Facture>(f, HttpStatus.OK);
     }
 
     /**
@@ -96,10 +86,9 @@ public class FactureController {
      * @return
      */
     @DeleteMapping("/deletefacture/{id}")
-    public ResponseEntity<ApiResponse> deleteFacture(@PathVariable(name = "id") Long id) {
+    public void deleteFacture(@PathVariable("id") Long id) {
+
         factureService.deleteFacture(id);
-        ApiResponse apiResponse = new ApiResponse(Boolean.TRUE, "Facture deleted successfully", HttpStatus.OK);
-        return new ResponseEntity<ApiResponse>(apiResponse, HttpStatus.OK);
     }
 
 

@@ -1,6 +1,7 @@
 package com.nst.facture.billing.models;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -40,20 +41,20 @@ public class Facture {
     private Long numerofacture;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "client_username")
     private Client client;
 
-    //@DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Temporal(TemporalType.DATE)
     @Column(name = "date_facture")
     private Date datefacture;
 
+    @ManyToMany
+    @JoinColumn(name = "designation")
+    private List<Product> productList;
+
     @Column(name = "montant_ttc")
     private double montanttc;
-
-    @ManyToMany
-    @JoinColumn(name = "product")
-    private List<Product> productList;
 
     @Column(name = "montant_ht")
     private double montantht;
