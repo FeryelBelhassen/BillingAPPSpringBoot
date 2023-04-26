@@ -1,6 +1,7 @@
 package com.nst.facture.billing.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,19 +10,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class describe entity Client
+ */
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Getter
 @Setter
 @Builder
-
-/**
- * This a table of clients
- */
+@JsonIgnoreProperties("hibernateLazyInitializer")
 @Table(	name = "clients",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
@@ -29,12 +28,7 @@ import java.util.List;
                 @UniqueConstraint(columnNames = "password"),
                 @UniqueConstraint(columnNames = "adresse"),
                 @UniqueConstraint(columnNames = "telephone")
-
-
         })
-/**
- * This class describe entity Client
- */
 public class Client {
 
     @Id
@@ -62,7 +56,7 @@ public class Client {
     @Size(max = 120)
     private String telephone;
 
-    @OneToMany(mappedBy = "client")
+    @ManyToMany(mappedBy = "client")
     @JsonIgnore
     private List<Facture> factures = new ArrayList<>();
 

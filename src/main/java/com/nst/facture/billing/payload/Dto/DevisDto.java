@@ -1,12 +1,19 @@
 package com.nst.facture.billing.payload.Dto;
 
+import lombok.*;
+
 import java.util.Date;
 
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class DevisDto {
-    private long id;
     private long numerodevis;
     private Date datedevis;
-    private int quantity;
+    private long quantity;
     private Double price;
 
     }

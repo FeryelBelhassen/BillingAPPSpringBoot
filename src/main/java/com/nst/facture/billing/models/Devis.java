@@ -35,16 +35,15 @@ public class Devis {
     private Long numerodevis;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(name = "date_devis")
     private Date datedevis;
+
 
     @Column(name = "quantity")
     private Long quantity;
 
     @Column(name = "price")
     private Double price;
-
-
-
 
 }

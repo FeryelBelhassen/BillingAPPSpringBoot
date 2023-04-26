@@ -1,9 +1,10 @@
 package com.nst.facture.billing.models;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(	name = "factureavoir",
@@ -33,23 +34,26 @@ import java.time.LocalDate;
 public class FactureAvoir {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idfactavoir;
+    private Long idfactavoir;
 
     @Column(name = "num_factureavoir")
-    private long numfactureavoir;
+    private Long numfactureavoir;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_username")
     private Client client;
 
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @Temporal(TemporalType.DATE)
     @Column(name = "date_facture")
-    private LocalDate datefacture;
+    private Date datefacture;
+
 
     @Column(name = "designation")
     private String designation;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Long quantity;
 
     @Column(name = "montant_ttc")
     private Double montanttc;

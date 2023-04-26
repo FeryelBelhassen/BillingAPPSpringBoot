@@ -1,12 +1,15 @@
 package com.nst.facture.billing.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * This class describes Facture Entity
+ */
 @Entity
 @Table(	name = "factures",
         uniqueConstraints = {
@@ -26,11 +29,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-
-/**
- * This class describes Facture Entity
- */
-
+@JsonIgnoreProperties("hibernateLazyInitializer")
 public class Facture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +40,6 @@ public class Facture {
     private Long numerofacture;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_username")
     private Client client;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")

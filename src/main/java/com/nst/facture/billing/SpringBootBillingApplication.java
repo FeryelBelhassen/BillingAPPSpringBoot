@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
@@ -85,27 +84,27 @@ public class SpringBootBillingApplication {
                     .password("sami1478")
                     .adresse("NABEUL")
                     .telephone("52021780").build();
-            clientRepository.save(client1);
+            client1 = clientRepository.save(client1);
 
             Facture facture = Facture.builder().numerofacture(123456L)
                     .client(client1)
-                    .datefacture(new Date(2022-02-13))
-
+                    .datefacture( Date.valueOf("2022-2-6"))
+                    .productList(List.of(product))
                     .montanttc(12.03)
                     .montantht(2.3).build();
             factureRepository.save(facture);
 
             Devis devis= Devis.builder().numerodevis(1236580L)
-                    .datedevis(new Date(01-04-2023))
+                    .datedevis(Date.valueOf("2022-5-20"))
                     .quantity(2L)
                     .price(150.23).build();
             devisRepository.save(devis);
 
-            FactureAvoir factureavoir = FactureAvoir.builder().numfactureavoir(147852)
+            FactureAvoir factureavoir = FactureAvoir.builder().numfactureavoir(147852L)
                     .client(client1)
-                    .datefacture(LocalDate.ofEpochDay(2023/05/10))
+                    .datefacture( Date.valueOf("2022-2-9"))
                     .designation("factureeeeee")
-                    .quantity(1)
+                    .quantity(1L)
                     .montanttc(100.32)
                     .montantht(101.3).build();
             factureAvoirRepository.save(factureavoir);

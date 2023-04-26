@@ -1,11 +1,11 @@
 package com.nst.facture.billing.repository;
 
 import com.nst.facture.billing.models.Facture;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FactureRepository extends CrudRepository<Facture, Long> {
+public interface FactureRepository extends JpaRepository<Facture, Long> {
 
     List<Facture> findByNumerofacture(Integer numerofacture);
 
