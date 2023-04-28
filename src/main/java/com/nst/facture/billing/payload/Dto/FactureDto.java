@@ -1,10 +1,12 @@
 package com.nst.facture.billing.payload.Dto;
 
 import com.nst.facture.billing.models.Client;
+import com.nst.facture.billing.models.Product;
 import lombok.*;
 
 import java.util.Date;
 import java.util.List;
+
 @Data
 @Getter
 @Setter
@@ -16,7 +18,6 @@ public class FactureDto {
     private Date datefacture;
     private Float montanttc;
     private Float montantht;
-    private List productList;
+    private List <Product> product;
 
-
-    }
+}

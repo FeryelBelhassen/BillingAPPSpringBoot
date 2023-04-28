@@ -1,6 +1,7 @@
 package com.nst.facture.billing.controllers.auth;
 
 
+import com.nst.facture.billing.exception.ResourceNotFoundException;
 import com.nst.facture.billing.models.User;
 import com.nst.facture.billing.payload.Dto.UserDto;
 import com.nst.facture.billing.repository.UserRepository;
@@ -8,7 +9,6 @@ import com.nst.facture.billing.service.UserService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -77,11 +77,20 @@ public class UserController {
      */
 
     @PutMapping("updateuser/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user){
+    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        user.setUsername(updatedUser.getUsername());
+        user.setEmail(updatedUser.getEmail());
+        user.setPassword(updatedUser.getPassword());
+        user.setRoles(updatedUser.getRoles());
+        userRepository.save(user);
+        return user;
+    }
+    /*public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user){
 
         User u = userService.updateUser(id, user);
         return new ResponseEntity<User>(u, HttpStatus.OK);
-    }
+    }*/
 
     /**
      * This function about delete a user
@@ -90,6 +99,7 @@ public class UserController {
      */
 
     @DeleteMapping("/deleteuser/{id}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(@PathVariable("id") Long id) {
 
         userService.deleteUser(id);

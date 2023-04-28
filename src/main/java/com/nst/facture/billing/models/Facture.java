@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+
 /**
  * This class describes Facture Entity
  */
@@ -49,7 +50,7 @@ public class Facture {
 
     @ManyToMany
     @JoinColumn(name = "designation")
-    private List<Product> productList;
+    private List <Product> product;
 
     @Column(name = "montant_ttc")
     private double montanttc;

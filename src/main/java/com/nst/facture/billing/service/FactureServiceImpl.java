@@ -40,7 +40,7 @@ public class FactureServiceImpl implements FactureService {
         factureDB.setNumerofacture(facture.getNumerofacture());
         factureDB.setDatefacture(facture.getDatefacture());
         factureDB.setClient(facture.getClient());
-        factureDB.setProductList(facture.getProductList());
+        factureDB.setProduct(facture.getProduct());
         factureDB.setMontanttc(facture.getMontanttc());
         factureDB.setMontantht(facture.getMontantht());
         Facture updatedFacture = getFactureById(id);
