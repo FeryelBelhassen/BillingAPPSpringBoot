@@ -31,21 +31,20 @@ public class FactureAvoirController {
 
 
     /**
-     * This function displays the list of factures
+     * This function displays the list of facturesavoir
      * @return
      */
     @GetMapping("/facturesavoir")
-    public List<FactureAvoir> allFacturesavoir(){
+    public List<FactureAvoir> allFacturesAvoir(){
         return factureAvoirService.getAllFacturesAvoir();
-
     }
     /**
-     * This function for get a facture
+     * This function for get a factureavoir
      * @param id
      * @return
      */
     @GetMapping("/factureavoir/{id}")
-    public ResponseEntity<FactureAvoirDto> getFactureAvoirById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<FactureAvoirDto> getFactureById(@PathVariable(name = "id") Long id) {
         FactureAvoir factureAvoir = factureAvoirService.getFactureAvoirById(id);
 
         // convert entity to DTO
@@ -67,9 +66,9 @@ public class FactureAvoirController {
     }
 
     /**
-     * This function about update a facture avoir
+     * This function about update a factureavoir
      * @param id
-     * @param facture
+     * @param factureAvoir
      * @return
      */
     @PutMapping("updatefactureavoir/{id}")
@@ -80,7 +79,7 @@ public class FactureAvoirController {
     }
 
     /**
-     * This function about delete a facture avoir
+     * This function about delete a factureavoir
      * @param id
      * @return
      */
@@ -89,5 +88,4 @@ public class FactureAvoirController {
 
         factureAvoirService.deleteFactureAvoir(id);
     }
-
 }

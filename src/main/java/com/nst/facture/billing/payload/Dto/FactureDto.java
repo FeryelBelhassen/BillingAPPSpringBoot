@@ -16,8 +16,8 @@ public class FactureDto {
     private long numerofacture;
     private Client client;
     private Date datefacture;
-    private Float montanttc;
-    private Float montantht;
+    private double montanttc;
+    private double montantht;
     private List <Product> product;
 
 }

@@ -2,6 +2,7 @@ package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.FactureAvoir;
 import com.nst.facture.billing.payload.Dto.FactureAvoirDto;
+import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.repository.FactureAvoirRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.BeanUtils;
@@ -14,12 +15,13 @@ import java.util.Optional;
 public class FactureAvoirServiceImpl implements FactureAvoirService {
     private final FactureAvoirRepository factureavoirRepository;
 
-    public FactureAvoirServiceImpl(FactureAvoirRepository factureavoirRepository) {
+    private final ClientRepository clientRepository;
+
+    public FactureAvoirServiceImpl(FactureAvoirRepository factureavoirRepository, ClientRepository clientRepository) {
         super();
         this.factureavoirRepository = factureavoirRepository;
+        this.clientRepository = clientRepository;
     }
-
-
     @Override
     public List<FactureAvoir> getAllFacturesAvoir() {
 
@@ -39,7 +41,7 @@ public class FactureAvoirServiceImpl implements FactureAvoirService {
         factureavoirDB.setNumfactureavoir(factureAvoir.getNumfactureavoir());
         factureavoirDB.setDatefacture(factureAvoir.getDatefacture());
         factureavoirDB.setClient(factureAvoir.getClient());
-        //factureDB.setProductList(facture.getProductList());
+        factureavoirDB.setProduct(factureAvoir.getProduct());
         factureavoirDB.setMontanttc(factureAvoir.getMontanttc());
         factureavoirDB.setMontantht(factureAvoir.getMontantht());
         FactureAvoir updatedFactureavoir = getFactureAvoirById(id);
@@ -47,12 +49,10 @@ public class FactureAvoirServiceImpl implements FactureAvoirService {
         return updatedFactureavoir;
     }
 
-
-
     @Override
     public void deleteFactureAvoir(Long id) {
-        Optional<FactureAvoir> factureAvoir = factureavoirRepository.findById(id);
-        factureAvoir.ifPresent(f -> {
+        Optional<FactureAvoir> factureavoir = factureavoirRepository.findById(id);
+        factureavoir.ifPresent(f -> {
             factureavoirRepository.delete(f);
 
         });
@@ -61,8 +61,7 @@ public class FactureAvoirServiceImpl implements FactureAvoirService {
     @Override
     public FactureAvoir getFactureAvoirById(long id) {
         return factureavoirRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("FactureAvoir not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Factureavoir not found"));
     }
-
 
 }

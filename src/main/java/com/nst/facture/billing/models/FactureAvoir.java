@@ -1,19 +1,20 @@
 package com.nst.facture.billing.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@JsonIgnoreProperties("hibernateLazyInitializer")
 @Table(	name = "factureavoir",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "num_factureavoir"),
                 //@UniqueConstraint(columnNames = "client"),
                 @UniqueConstraint(columnNames = "date_facture"),
-                @UniqueConstraint(columnNames = "designation"),
-                @UniqueConstraint(columnNames = "quantity"),
                 @UniqueConstraint(columnNames = "montant_ttc"),
                 @UniqueConstraint(columnNames = "montant_ht"),
 
@@ -34,13 +35,12 @@ import java.util.Date;
 public class FactureAvoir {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idfactavoir;
+    private Long id;
 
     @Column(name = "num_factureavoir")
     private Long numfactureavoir;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_username")
     private Client client;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -48,18 +48,16 @@ public class FactureAvoir {
     @Column(name = "date_facture")
     private Date datefacture;
 
+    @ManyToMany
+    @JoinColumn(name = "designation")
+    private List <Product> product;
 
-    @Column(name = "designation")
-    private String designation;
-
-    @Column(name = "quantity")
-    private Long quantity;
 
     @Column(name = "montant_ttc")
-    private Double montanttc;
+    private double montanttc;
 
     @Column(name = "montant_ht")
-    private Double montantht;
+    private double montantht;
 
 
 }

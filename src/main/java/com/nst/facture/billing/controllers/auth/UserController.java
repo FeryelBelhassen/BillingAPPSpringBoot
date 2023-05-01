@@ -37,6 +37,8 @@ public class UserController {
      * This function displays the list of users
      * @return
      */
+
+    //@PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
     public List<User> allUsers(){
         return userService.getAllUsers();

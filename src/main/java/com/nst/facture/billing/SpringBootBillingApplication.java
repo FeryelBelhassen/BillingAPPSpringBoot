@@ -130,14 +130,13 @@ public class SpringBootBillingApplication {
                     .price(150.23).build();
             devisRepository.save(devis);
 
-            FactureAvoir factureavoir = FactureAvoir.builder().numfactureavoir(147852L)
+            FactureAvoir factureavoir1 = FactureAvoir.builder().numfactureavoir(124476L)
                     .client(client2)
-                    .datefacture( Date.valueOf("2022-2-9"))
-                    .designation("factureeeeee")
-                    .quantity(1L)
-                    .montanttc(100.32)
-                    .montantht(101.3).build();
-            factureAvoirRepository.save(factureavoir);
+                    .datefacture( Date.valueOf("2022-2-7"))
+                    .product(List.of(product))
+                    .montanttc(123.03)
+                    .montantht(23.3).build();
+            factureAvoirRepository.save(factureavoir1);
 
         };
         }
