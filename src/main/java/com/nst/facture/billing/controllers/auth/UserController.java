@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -74,12 +76,12 @@ public class UserController {
 
     /**
      * This function about update a user
-     * @param id , userDetails
+     * @param id
      * @return
      */
 
     @PutMapping("updateuser/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+    public User updateUser(@PathVariable("id") @NotNull @Min(1) Long id, @RequestBody User updatedUser) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.setUsername(updatedUser.getUsername());
         user.setEmail(updatedUser.getEmail());
@@ -88,11 +90,7 @@ public class UserController {
         userRepository.save(user);
         return user;
     }
-    /*public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user){
 
-        User u = userService.updateUser(id, user);
-        return new ResponseEntity<User>(u, HttpStatus.OK);
-    }*/
 
     /**
      * This function about delete a user

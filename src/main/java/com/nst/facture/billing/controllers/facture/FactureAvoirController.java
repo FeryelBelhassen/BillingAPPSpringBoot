@@ -1,6 +1,7 @@
 package com.nst.facture.billing.controllers.facture;
 
 
+import com.nst.facture.billing.exception.ResourceNotFoundException;
 import com.nst.facture.billing.models.FactureAvoir;
 import com.nst.facture.billing.payload.Dto.FactureAvoirDto;
 import com.nst.facture.billing.repository.FactureAvoirRepository;
@@ -8,10 +9,11 @@ import com.nst.facture.billing.service.FactureAvoirService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -68,15 +70,21 @@ public class FactureAvoirController {
     /**
      * This function about update a factureavoir
      * @param id
-     * @param factureAvoir
      * @return
      */
     @PutMapping("updatefactureavoir/{id}")
-    public ResponseEntity<FactureAvoir> updateFactureAvoir(@PathVariable("id") Long id, @RequestBody FactureAvoir factureAvoir){
-
-        FactureAvoir fa= factureAvoirService.updateFactureAvoir(id, factureAvoir);
-        return new ResponseEntity<FactureAvoir>(fa, HttpStatus.OK);
+    public FactureAvoir updateFactureAvoir(@PathVariable("id") @NotNull @Min(1) Long id, @RequestBody FactureAvoir updatedFactureavoir) {
+        FactureAvoir factureAvoir = factureAvoirRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("FactureAvoir not found"));
+        factureAvoir.setNumfactureavoir(updatedFactureavoir.getNumfactureavoir());
+        factureAvoir.setClient(updatedFactureavoir.getClient());
+        factureAvoir.setDatefacture(updatedFactureavoir.getDatefacture());
+        factureAvoir.setProduct(updatedFactureavoir.getProduct());
+        factureAvoir.setMontanttc(updatedFactureavoir.getMontanttc());
+        factureAvoir.setMontantht(updatedFactureavoir.getMontantht());
+        factureAvoirRepository.save(factureAvoir);
+        return factureAvoir;
     }
+
 
     /**
      * This function about delete a factureavoir

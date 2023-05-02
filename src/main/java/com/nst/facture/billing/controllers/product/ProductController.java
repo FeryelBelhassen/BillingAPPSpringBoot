@@ -1,16 +1,19 @@
 package com.nst.facture.billing.controllers.product;
 
 
+import com.nst.facture.billing.exception.ResourceNotFoundException;
 import com.nst.facture.billing.models.Product;
 import com.nst.facture.billing.payload.Dto.ProductDto;
+import com.nst.facture.billing.repository.ProductRepository;
 import com.nst.facture.billing.service.ProductService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -27,6 +30,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductRepository productRepository;
 
 
     /**
@@ -75,14 +80,18 @@ public class ProductController {
     /**
      * This function about update a product
      * @param id
-     * @param product
      * @return
      */
     @PutMapping("updateproduct/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
-
-        Product p = productService.updateProduct(id, product);
-        return new ResponseEntity<Product>(p, HttpStatus.OK);
+    public Product updateProduct(@PathVariable("id") @NotNull @Min(1) Long id, @RequestBody Product updatedProduct) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+        product.setCode(updatedProduct.getCode());
+        product.setDesignation(updatedProduct.getDesignation());
+        product.setQuantity(updatedProduct.getQuantity());
+        product.setSupplier(updatedProduct.getSupplier());
+        product.setPrice(updatedProduct.getPrice());
+        productRepository.save(product);
+        return product;
     }
 
     /**
@@ -96,11 +105,6 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-    /*@DeleteMapping("/deleteall")
-    public void deleteAllProducts() {
-
-        productService.deleteAll();
-    }*/
 
 
 

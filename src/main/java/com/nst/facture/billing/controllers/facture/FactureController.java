@@ -1,6 +1,7 @@
 package com.nst.facture.billing.controllers.facture;
 
 
+import com.nst.facture.billing.exception.ResourceNotFoundException;
 import com.nst.facture.billing.models.Facture;
 import com.nst.facture.billing.payload.Dto.FactureDto;
 import com.nst.facture.billing.repository.FactureRepository;
@@ -8,10 +9,10 @@ import com.nst.facture.billing.service.FactureService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -45,15 +46,13 @@ public class FactureController {
      * @param id
      * @return
      */
-    @GetMapping("/facture/{id}")
-    public ResponseEntity<FactureDto> getFactureById(@PathVariable(name = "id") Long id) {
-        Facture facture = factureService.getFactureById(id);
 
-        // convert entity to DTO
-        FactureDto postResponse = modelMapper.map(facture, FactureDto.class);
-
-        return ResponseEntity.ok().body(postResponse);
+    @GetMapping("/factures/{id}")
+    public Facture getFacture(@PathVariable Long id) {
+        return factureService.getFactureById(id);
     }
+
+
 
     /**
      * This function about create a facture
@@ -70,15 +69,21 @@ public class FactureController {
     /**
      * This function about update a facture
      * @param id
-     * @param facture
      * @return
      */
     @PutMapping("updatefacture/{id}")
-    public ResponseEntity<Facture> updateFacture(@PathVariable("id") Long id, @RequestBody Facture facture){
-
-        Facture f= factureService.updateFacture(id, facture);
-        return new ResponseEntity<Facture>(f, HttpStatus.OK);
+    public Facture updateFacture(@PathVariable("id") @NotNull @Min(1) Long id, @RequestBody Facture updatedFacture) {
+        Facture facture = factureRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Facture not found"));
+        facture.setNumerofacture(updatedFacture.getNumerofacture());
+        facture.setClient(updatedFacture.getClient());
+        facture.setDatefacture(updatedFacture.getDatefacture());
+        facture.setProduct(updatedFacture.getProduct());
+        facture.setMontanttc(updatedFacture.getMontanttc());
+        facture.setMontantht(updatedFacture.getMontantht());
+        factureRepository.save(facture);
+        return facture;
     }
+
 
     /**
      * This function about delete a facture
@@ -90,6 +95,13 @@ public class FactureController {
 
         factureService.deleteFacture(id);
     }
+
+
+
+
+
+
+
 
 
 }

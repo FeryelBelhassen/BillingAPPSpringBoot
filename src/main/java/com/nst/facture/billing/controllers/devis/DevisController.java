@@ -1,16 +1,19 @@
 package com.nst.facture.billing.controllers.devis;
 
 
+import com.nst.facture.billing.exception.ResourceNotFoundException;
 import com.nst.facture.billing.models.Devis;
 import com.nst.facture.billing.payload.Dto.DevisDto;
+import com.nst.facture.billing.repository.DevisRepository;
 import com.nst.facture.billing.service.DevisService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -27,6 +30,8 @@ public class DevisController {
 
     @Autowired
     private DevisService devisService;
+    @Autowired
+    private DevisRepository devisRepository;
 
 
     /**
@@ -68,14 +73,17 @@ public class DevisController {
     /**
      * This function about update a facture
      * @param id
-     * @param devis
      * @return
      */
     @PutMapping("updatedevis/{id}")
-    public ResponseEntity<Devis> updateDevis(@PathVariable("id") Long id, @RequestBody Devis devis){
-
-        Devis d= devisService.updateDevis(id, devis);
-        return new ResponseEntity<Devis>(d, HttpStatus.OK);
+    public Devis updateDevis(@PathVariable("id") @NotNull @Min(1) Long id, @RequestBody Devis updatedDevis) {
+        Devis devis = devisRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Devis not found"));
+        devis.setNumerodevis(updatedDevis.getNumerodevis());
+        devis.setDatedevis(updatedDevis.getDatedevis());
+        devis.setQuantity(updatedDevis.getQuantity());
+        devis.setPrice(updatedDevis.getPrice());
+        devisRepository.save(devis);
+        return devis;
     }
 
     /**

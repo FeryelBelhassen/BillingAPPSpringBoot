@@ -65,4 +65,5 @@ public class FactureServiceImpl implements FactureService {
                 .orElseThrow(() -> new ResourceNotFoundException("Facture not found"));
     }
 
+
 }
