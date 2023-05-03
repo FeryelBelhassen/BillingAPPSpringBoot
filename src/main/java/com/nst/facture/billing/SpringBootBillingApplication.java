@@ -111,7 +111,7 @@ public class SpringBootBillingApplication {
             Facture facture = Facture.builder().numerofacture(123476L)
                     .client(client2)
                     .datefacture( Date.valueOf("2022-5-23"))
-                    .product(List.of(product))
+                    .product(List.of(product, product1))
                     .montanttc(120.03)
                     .montantht(20.3).build();
             factureRepository.save(facture);
