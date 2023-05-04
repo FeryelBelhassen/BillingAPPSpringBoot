@@ -72,6 +72,20 @@ public class SpringBootBillingApplication {
                     .build();
             userRepository.save(client);
 
+            User agent = User.builder().username("mohamed")
+                    .email("med@gmail.com")
+                    .password(passwordEncoder.encode("med123456"))
+                    .roles(Collections.singleton(role1))
+                    .build();
+            userRepository.save(agent);
+
+            User magasinier = User.builder().username("ali")
+                    .email("ali@gmail.com")
+                    .password(passwordEncoder.encode("ali123456"))
+                    .roles(Collections.singleton(role3))
+                    .build();
+            userRepository.save(magasinier);
+
             User client1 = User.builder().username("sami")
                     .email("s@gmail.com")
                     .password(passwordEncoder.encode("sami123"))
