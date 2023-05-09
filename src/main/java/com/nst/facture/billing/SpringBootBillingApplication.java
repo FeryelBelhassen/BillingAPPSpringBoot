@@ -93,19 +93,33 @@ public class SpringBootBillingApplication {
                     .build();
             userRepository.save(client1);
 
-            Product product = Product.builder().code(12547896L)
+            Product product = Product.builder().code(125470L)
                     .designation("Product 1")
                     .quantity(2L)
                     .supplier("ahmed")
                     .price(12L).build();
             productRepository.save(product);
 
-            Product product1 = Product.builder().code(12547886L)
+            Product product1 = Product.builder().code(125471L)
                     .designation("Product 2")
-                    .quantity(1L)
-                    .supplier("sami")
-                    .price(14L).build();
+                    .quantity(4L)
+                    .supplier("molka")
+                    .price(140L).build();
             productRepository.save(product1);
+
+            Product product3 = Product.builder().code(125472L)
+                    .designation("Product 3")
+                    .quantity(1L)
+                    .supplier("ali")
+                    .price(150L).build();
+            productRepository.save(product3);
+
+            Product product4 = Product.builder().code(125473L)
+                    .designation("Product 4")
+                    .quantity(3L)
+                    .supplier("sami")
+                    .price(120L).build();
+            productRepository.save(product4);
 
 
             Client client2= Client.builder().username("sami")
@@ -122,27 +136,84 @@ public class SpringBootBillingApplication {
                     .telephone("90236875").build();
             client3 = clientRepository.save(client3);
 
-            Facture facture = Facture.builder().numerofacture(123476L)
+            Client client4= Client.builder().username("asma")
+                    .email("a@gmail.com")
+                    .password("asma126587")
+                    .adresse("SOUSSE")
+                    .telephone("23658987").build();
+            client4 = clientRepository.save(client4);
+
+            Client client5= Client.builder().username("molka")
+                    .email("molka@gmail.com")
+                    .password("molka126587")
+                    .adresse("NABEUL")
+                    .telephone("5236987").build();
+            client4 = clientRepository.save(client4);
+
+            Facture facture = Facture.builder().numerofacture(122470L)
                     .client(client2)
-                    .datefacture( Date.valueOf("2022-5-23"))
+                    .datefacture( Date.valueOf("2023-10-23"))
                     .product(List.of(product, product1))
                     .montanttc(120.03)
                     .montantht(20.3).build();
             factureRepository.save(facture);
 
-            Facture facture1 = Facture.builder().numerofacture(123486L)
+            Facture facture1 = Facture.builder().numerofacture(122473L)
                     .client(client3)
-                    .datefacture( Date.valueOf("2022-7-8"))
-                    .product(List.of(product1))
+                    .datefacture( Date.valueOf("2021-7-8"))
+                    .product(List.of(product1, product4))
                     .montanttc(220.03)
                     .montantht(30.5).build();
             factureRepository.save(facture1);
+
+
+            Facture facture2 = Facture.builder().numerofacture(122474L)
+                    .client(client4)
+                    .datefacture( Date.valueOf("2023-5-23"))
+                    .product(List.of(product, product3))
+                    .montanttc(550)
+                    .montantht(40.3).build();
+            factureRepository.save(facture2);
+
+            Facture facture3 = Facture.builder().numerofacture(123475L)
+                    .client(client2)
+                    .datefacture( Date.valueOf("2022-4-23"))
+                    .product(List.of(product1, product4))
+                    .montanttc(600.03)
+                    .montantht(10.3).build();
+            factureRepository.save(facture3);
+
+            Facture facture4= Facture.builder().numerofacture(123476L)
+                    .client(client2)
+                    .datefacture( Date.valueOf("2022-8-8"))
+                    .product(List.of(product3, product1, product4))
+                    .montanttc(180.03)
+                    .montantht(80.3).build();
+            factureRepository.save(facture4);
 
             Devis devis= Devis.builder().numerodevis(1236580L)
                     .datedevis(Date.valueOf("2022-5-20"))
                     .quantity(2L)
                     .price(150.23).build();
             devisRepository.save(devis);
+
+            Devis devis1= Devis.builder().numerodevis(1236581L)
+                    .datedevis(Date.valueOf("2021-7-5"))
+                    .quantity(1L)
+                    .price(120.23).build();
+            devisRepository.save(devis1);
+
+            Devis devis3= Devis.builder().numerodevis(1236582L)
+                    .datedevis(Date.valueOf("2022-9-25"))
+                    .quantity(3L)
+                    .price(137.00).build();
+            devisRepository.save(devis3);
+
+            Devis devis4= Devis.builder().numerodevis(1236583L)
+                    .datedevis(Date.valueOf("2023-3-22"))
+                    .quantity(4L)
+                    .price(125.00).build();
+            devisRepository.save(devis4);
 
             FactureAvoir factureavoir1 = FactureAvoir.builder().numfactureavoir(124476L)
                     .client(client2)
