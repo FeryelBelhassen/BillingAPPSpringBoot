@@ -96,54 +96,54 @@ public class SpringBootBillingApplication {
             Product product = Product.builder().code(125470L)
                     .designation("Product 1")
                     .quantity(2L)
-                    .supplier("ahmed")
+                    .supplier("AHMED")
                     .price(12L).build();
             productRepository.save(product);
 
             Product product1 = Product.builder().code(125471L)
                     .designation("Product 2")
                     .quantity(4L)
-                    .supplier("molka")
+                    .supplier("ANOUAR")
                     .price(140L).build();
             productRepository.save(product1);
 
             Product product3 = Product.builder().code(125472L)
                     .designation("Product 3")
                     .quantity(1L)
-                    .supplier("ali")
+                    .supplier("MAHMOUD")
                     .price(150L).build();
             productRepository.save(product3);
 
             Product product4 = Product.builder().code(125473L)
                     .designation("Product 4")
                     .quantity(3L)
-                    .supplier("sami")
+                    .supplier("MOHAMED")
                     .price(120L).build();
             productRepository.save(product4);
 
 
-            Client client2= Client.builder().username("sami")
+            Client client2= Client.builder().username("SAMI")
                     .email("sami@gmail.com")
                     .password("sami1478")
                     .adresse("NABEUL")
                     .telephone("52021780").build();
             client2 = clientRepository.save(client2);
 
-            Client client3= Client.builder().username("ali")
+            Client client3= Client.builder().username("ALI")
                     .email("ali@gmail.com")
                     .password("ali126587")
                     .adresse("TUNIS")
                     .telephone("90236875").build();
             client3 = clientRepository.save(client3);
 
-            Client client4= Client.builder().username("asma")
+            Client client4= Client.builder().username("ASMA")
                     .email("a@gmail.com")
                     .password("asma126587")
                     .adresse("SOUSSE")
                     .telephone("23658987").build();
             client4 = clientRepository.save(client4);
 
-            Client client5= Client.builder().username("molka")
+            Client client5= Client.builder().username("MOLKA")
                     .email("molka@gmail.com")
                     .password("molka126587")
                     .adresse("NABEUL")
@@ -194,7 +194,7 @@ public class SpringBootBillingApplication {
             Devis devis= Devis.builder().numerodevis(1236580L)
                     .datedevis(Date.valueOf("2022-5-20"))
                     .quantity(2L)
-                    .price(150.23).build();
+                    .price(110.23).build();
             devisRepository.save(devis);
 
             Devis devis1= Devis.builder().numerodevis(1236581L)
