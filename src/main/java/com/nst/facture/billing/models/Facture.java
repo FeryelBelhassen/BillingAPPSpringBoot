@@ -12,18 +12,18 @@ import java.util.List;
  * This class describes Facture Entity
  */
 @Entity
-@Table(	name = "factures",
-        uniqueConstraints = {
+@Table(	name = "factures")
+      /*  uniqueConstraints = {
                 @UniqueConstraint(columnNames = "numero_facture"),
                 //@UniqueConstraint(columnNames = "client_id"),
                 //@UniqueConstraint(columnNames = "code"),
-                @UniqueConstraint(columnNames = "date_facture"),
+                @Column(columnNames = "date_facture"),
                 @UniqueConstraint(columnNames = "montant_ttc"),
                 @UniqueConstraint(columnNames = "montant_ht"),
 
 
 
-        })
+        })*/
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

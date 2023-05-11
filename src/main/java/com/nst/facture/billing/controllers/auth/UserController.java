@@ -53,13 +53,13 @@ public class UserController {
      * @return
      */
     @GetMapping("/users/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User user = userService.getUserById(id);
-
-        // convert entity to DTO
-        UserDto userResponse = modelMapper.map(user, UserDto.class);
-
-        return ResponseEntity.ok().body(userResponse);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     /**

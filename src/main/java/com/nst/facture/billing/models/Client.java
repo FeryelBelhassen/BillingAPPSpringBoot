@@ -21,14 +21,15 @@ import java.util.List;
 @Setter
 @Builder
 @JsonIgnoreProperties("hibernateLazyInitializer")
-@Table(	name = "clients",
+@Table(	name = "clients")
+/*,
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email"),
                 @UniqueConstraint(columnNames = "password"),
                 @UniqueConstraint(columnNames = "adresse"),
                 @UniqueConstraint(columnNames = "telephone")
-        })
+        })*/
 public class Client {
 
     @Id

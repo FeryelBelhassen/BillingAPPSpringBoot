@@ -18,7 +18,8 @@ import javax.validation.constraints.Size;
 /**
  * This a table of products
  */
-@Table(	name = "products",
+@Table(	name = "products")
+        /*,
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "code"),
                 @UniqueConstraint(columnNames = "designation"),
@@ -27,7 +28,7 @@ import javax.validation.constraints.Size;
                 @UniqueConstraint(columnNames = "price"),
 
 
-        })
+        })*/
 /**
  * This class describe entity User
  */

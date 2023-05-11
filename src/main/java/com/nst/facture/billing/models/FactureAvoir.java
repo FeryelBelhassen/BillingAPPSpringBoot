@@ -10,7 +10,8 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties("hibernateLazyInitializer")
-@Table(	name = "factureavoir",
+@Table(	name = "factureavoir")
+/*,
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "num_factureavoir"),
                 //@UniqueConstraint(columnNames = "client"),
@@ -20,7 +21,7 @@ import java.util.List;
 
 
 
-        })
+        })*/
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

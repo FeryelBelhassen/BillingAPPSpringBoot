@@ -7,7 +7,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(	name = "devis",
+@Table(	name = "devis")
+/*,
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "numero_devis"),
                 @UniqueConstraint(columnNames = "date_devis"),
@@ -15,7 +16,7 @@ import java.util.Date;
                 @UniqueConstraint(columnNames = "price")
 
 
-        })
+        })*/
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
