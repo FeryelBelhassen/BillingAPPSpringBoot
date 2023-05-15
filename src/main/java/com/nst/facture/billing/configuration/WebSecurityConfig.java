@@ -32,15 +32,16 @@ public class WebSecurityConfig  {
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
-    /*@Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/api/admin/**").hasRole("ADMIN")
-                .antMatchers("/api/user/**").hasRole("USER")
+        http
+                .authorizeRequests()
+                .antMatchers("/public").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
                 .and()
                 .httpBasic();
     }
-*/
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();

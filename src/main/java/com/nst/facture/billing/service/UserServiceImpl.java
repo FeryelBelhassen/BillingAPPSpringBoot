@@ -63,6 +63,20 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
 
+    public User getUserByUsername(String username) {
+            // Implement the logic to fetch the user by username from your data source (e.g., database)
+            // This is just a simple example assuming you have a UserRepository
+
+            // Retrieve the user from the UserRepository by username
+            Optional<User> optionalUser = userRepository.findByUsername(username);
+
+            // If the user is found, return it; otherwise, handle accordingly (e.g., throw an exception)
+            return optionalUser.orElseThrow(() -> new ResourceNotFoundException ("User not found"));
+        }
 }
+
+
+
 
