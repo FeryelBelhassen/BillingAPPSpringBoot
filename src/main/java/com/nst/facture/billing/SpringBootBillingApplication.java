@@ -58,35 +58,35 @@ public class SpringBootBillingApplication {
             Role role4 = Role.builder().id(5).name(ERole.CLIENT).build();
             roleRepository.saveAll(List.of(roleAdmin, role1, role2, role3, role4));
 
-            User admin = User.builder().username("feryel")
+            User admin = User.builder().username("Feryel")
                     .email("feryel@gmail.com")
                     .password(passwordEncoder.encode("12345678"))
                     .roles(Collections.singleton(roleAdmin))
                     .build();
             userRepository.save(admin);
 
-            User client = User.builder().username("ahmed")
+            User client = User.builder().username("Ahmed")
                     .email("a@gmail.com")
                     .password(passwordEncoder.encode("ahmed123"))
                     .roles(Collections.singleton(role4))
                     .build();
             userRepository.save(client);
 
-            User agent = User.builder().username("mohamed")
+            User agent = User.builder().username("Mohamed")
                     .email("med@gmail.com")
                     .password(passwordEncoder.encode("med123456"))
                     .roles(Collections.singleton(role1))
                     .build();
             userRepository.save(agent);
 
-            User magasinier = User.builder().username("ali")
+            User magasinier = User.builder().username("Ali")
                     .email("ali@gmail.com")
                     .password(passwordEncoder.encode("ali123456"))
                     .roles(Collections.singleton(role3))
                     .build();
             userRepository.save(magasinier);
 
-            User client1 = User.builder().username("sami")
+            User client1 = User.builder().username("Sami")
                     .email("s@gmail.com")
                     .password(passwordEncoder.encode("sami123"))
                     .roles(Collections.singleton(role4))

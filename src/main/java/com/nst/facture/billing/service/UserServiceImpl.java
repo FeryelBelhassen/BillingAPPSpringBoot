@@ -53,16 +53,10 @@ public class UserServiceImpl implements UserService {
         });
     }
 
-    public User getUserById(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
-        } else {
-            // Handle the case when the user with the given ID is not found
-            throw new ResourceNotFoundException("User not found for ID: " + id);
-        }
+    public User getUserById(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        return optionalUser.get();
     }
-
     @Override
 
     public User getUserByUsername(String username) {
