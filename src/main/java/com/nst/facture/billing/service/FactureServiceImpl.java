@@ -65,5 +65,16 @@ public class FactureServiceImpl implements FactureService {
                 .orElseThrow(() -> new ResourceNotFoundException("Facture not found"));
     }
 
+    @Override
+    public List<Facture> getFacturesByClient(String client) {
+        // Utilisez le repository pour récupérer les factures du client spécifié
+        List<Facture> factures = factureRepository.findByClient(client);
+
+        // Vous pouvez ajouter d'autres opérations de traitement ou de logique métier si nécessaire
+
+        return factures;
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.nst.facture.billing.configuration;
 
+import com.nst.facture.billing.repository.UserRepository;
 import com.nst.facture.billing.security.jwt.AuthEntryPointJwt;
 import com.nst.facture.billing.security.jwt.AuthTokenFilter;
 import com.nst.facture.billing.security.services.UserDetailsServiceImpl;
@@ -25,23 +26,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         // securedEnabled = true,
         // jsr250Enabled = true,
         prePostEnabled = true)
-public class WebSecurityConfig  {
+public class WebSecurityConfig   {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
     @Autowired
+    UserRepository userRepository;
+    @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
-    protected void configure(HttpSecurity http) throws Exception {
+    /*protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
+*//*
+                .addFilter(new AuthTokenFilter())
+*//*
                 .formLogin()
                 .and()
                 .httpBasic();
-    }
+    }*/
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
@@ -71,14 +77,17 @@ public class WebSecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.cors().disable()
-                .csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .and()
                 .httpBasic();
 
         http.authenticationProvider((authenticationProvider()));
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AuthTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

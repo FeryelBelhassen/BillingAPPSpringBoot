@@ -2,13 +2,16 @@ package com.nst.facture.billing.controllers.facture;
 
 
 import com.nst.facture.billing.exception.ResourceNotFoundException;
+import com.nst.facture.billing.models.Client;
 import com.nst.facture.billing.models.Facture;
 import com.nst.facture.billing.payload.Dto.FactureDto;
 import com.nst.facture.billing.repository.FactureRepository;
+import com.nst.facture.billing.repository.RoleRepository;
 import com.nst.facture.billing.service.FactureService;
 import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
@@ -29,6 +32,8 @@ public class FactureController {
 
     @Autowired
     private FactureService factureService;
+    @Autowired
+    private RoleRepository roleRepository;
 
 
     /**
@@ -94,6 +99,18 @@ public class FactureController {
     public void deleteFacture(@PathVariable("id") Long id) {
 
         factureService.deleteFacture(id);
+    }
+
+    @GetMapping ("/facturebyclient/{client}")
+    public void getFactureByClient( Client client){
+        factureService.getFacturesByClient(String.valueOf(client));
+
+    }
+
+    @GetMapping ("factureclient")
+    public List<Facture> getFactures(Authentication authentication) {
+        String client = authentication.getName(); // Récupère l'ID du client authentifié
+        return factureService.getFacturesByClient(client);
     }
 
 

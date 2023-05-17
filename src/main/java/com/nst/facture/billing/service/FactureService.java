@@ -16,5 +16,7 @@ public interface FactureService {
 
     Facture getFactureById(long id);
 
+    List getFacturesByClient(String client);
+
 
 }

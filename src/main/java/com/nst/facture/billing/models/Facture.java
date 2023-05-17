@@ -41,6 +41,7 @@ public class Facture {
     private Long numerofacture;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
     private Client client;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy")

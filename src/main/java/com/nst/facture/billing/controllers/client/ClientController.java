@@ -95,7 +95,7 @@ public class ClientController {
      * @return
      */
     @DeleteMapping("/deleteclient/{id}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ADMIN')")
     public void deleteClient(@PathVariable("id") Long id) {
 
         clientService.deleteClient(id);

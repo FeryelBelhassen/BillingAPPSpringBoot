@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
@@ -42,7 +41,6 @@ public class UserController {
      */
 
     @GetMapping("/users")
-    //@PreAuthorize("hasRole('ADMIN')")
     public List<User> allUsers(){
         return userService.getAllUsers();
 
@@ -55,7 +53,6 @@ public class UserController {
      */
 
     @GetMapping("/user/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -70,7 +67,6 @@ public class UserController {
      */
 
     @PostMapping("/adduser")
-    //@PreAuthorize("hasRole('ADMIN')")
     public User createUser(@RequestBody UserDto userDto) {
 
         return userService.addUserFromDTO(userDto);
@@ -84,7 +80,6 @@ public class UserController {
      */
 
     @PutMapping("updateuser/{id}")
-    //@PreAuthorize("hasRole('ADMIN')")
     public User updateUser(@PathVariable("id") @NotNull @Min(1) Long id, @RequestBody User updatedUser) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.setUsername(updatedUser.getUsername());
@@ -102,7 +97,6 @@ public class UserController {
      * @return
      */
     @DeleteMapping("/deleteuser/{id}")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deleteUser(@PathVariable("id") Long id) {
 
         userService.deleteUser(id);
@@ -114,19 +108,16 @@ public class UserController {
     }
 
     @GetMapping("/useer")
-    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getUserContent() {
         return ResponseEntity.ok("User content goes here");
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> getAdminContent() {
         return ResponseEntity.ok("Admin content goes here");
     }
 
     @GetMapping("/agent")
-    @PreAuthorize("hasRole('AGENT')")
     public ResponseEntity<?> getModeratorContent() {
         return ResponseEntity.ok("Moderator content goes here");
     }
