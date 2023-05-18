@@ -19,5 +19,6 @@ public class FactureDto {
     private double montanttc;
     private double montantht;
     private ArrayList<Product> product;
+    private double total;
 
 }

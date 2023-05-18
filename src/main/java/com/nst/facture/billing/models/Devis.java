@@ -40,11 +40,16 @@ public class Devis {
     @Column(name = "date_devis")
     private Date datedevis;
 
+    @ManyToOne
+    @JoinColumn(name = "designation")
+    private Product product;
 
     @Column(name = "quantity")
     private Long quantity;
 
     @Column(name = "price")
     private Double price;
+
+
 
 }

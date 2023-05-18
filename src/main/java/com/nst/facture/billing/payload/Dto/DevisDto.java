@@ -1,5 +1,6 @@
 package com.nst.facture.billing.payload.Dto;
 
+import com.nst.facture.billing.models.Product;
 import lombok.*;
 
 import java.util.Date;
@@ -13,6 +14,8 @@ import java.util.Date;
 public class DevisDto {
     private long numerodevis;
     private Date datedevis;
+
+    private Product product;
     private long quantity;
     private Double price;
 

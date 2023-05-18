@@ -175,21 +175,6 @@ public class SpringBootBillingApplication {
                     .montantht(40.3).build();
             factureRepository.save(facture2);
 
-            Facture facture3 = Facture.builder().numerofacture(123475L)
-                    .client(client2)
-                    .datefacture( Date.valueOf("2022-4-23"))
-                    .product(List.of(product1, product4))
-                    .montanttc(600.03)
-                    .montantht(10.3).build();
-            factureRepository.save(facture3);
-
-            Facture facture4= Facture.builder().numerofacture(123476L)
-                    .client(client2)
-                    .datefacture( Date.valueOf("2022-8-8"))
-                    .product(List.of(product3, product1, product4))
-                    .montanttc(180.03)
-                    .montantht(80.3).build();
-            factureRepository.save(facture4);
 
             Devis devis= Devis.builder().numerodevis(1236580L)
                     .datedevis(Date.valueOf("2022-5-20"))
@@ -199,18 +184,21 @@ public class SpringBootBillingApplication {
 
             Devis devis1= Devis.builder().numerodevis(1236581L)
                     .datedevis(Date.valueOf("2021-7-5"))
+                    .product(product1)
                     .quantity(1L)
                     .price(120.23).build();
             devisRepository.save(devis1);
 
             Devis devis3= Devis.builder().numerodevis(1236582L)
                     .datedevis(Date.valueOf("2022-9-25"))
+                    .product(product3)
                     .quantity(3L)
                     .price(137.00).build();
             devisRepository.save(devis3);
 
             Devis devis4= Devis.builder().numerodevis(1236583L)
                     .datedevis(Date.valueOf("2023-3-22"))
+                    .product(product)
                     .quantity(4L)
                     .price(125.00).build();
             devisRepository.save(devis4);

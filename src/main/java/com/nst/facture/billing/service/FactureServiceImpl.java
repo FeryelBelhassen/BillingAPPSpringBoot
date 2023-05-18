@@ -1,6 +1,7 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Facture;
+import com.nst.facture.billing.models.Product;
 import com.nst.facture.billing.payload.Dto.FactureDto;
 import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.repository.FactureRepository;
@@ -34,6 +35,9 @@ public class FactureServiceImpl implements FactureService {
         return factureRepository.save(toAdd);
     }
 
+    /*double total = product.stream().mapToDouble(Product::getPrice).sum();
+     facture.setTotal(total);*/
+
     @Override
     public Facture updateFacture(Long id, Facture facture) {
         Facture factureDB =getFactureById(id);
@@ -65,7 +69,7 @@ public class FactureServiceImpl implements FactureService {
                 .orElseThrow(() -> new ResourceNotFoundException("Facture not found"));
     }
 
-    @Override
+    /*@Override
     public List<Facture> getFacturesByClient(String client) {
         // Utilisez le repository pour récupérer les factures du client spécifié
         List<Facture> factures = factureRepository.findByClient(client);
@@ -73,7 +77,7 @@ public class FactureServiceImpl implements FactureService {
         // Vous pouvez ajouter d'autres opérations de traitement ou de logique métier si nécessaire
 
         return factures;
-    }
+    }*/
 
 
 
