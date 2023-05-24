@@ -2,15 +2,18 @@ package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Facture;
 import com.nst.facture.billing.models.Product;
+import com.nst.facture.billing.models.User;
 import com.nst.facture.billing.payload.Dto.FactureDto;
 import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.repository.FactureRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FactureServiceImpl implements FactureService {
@@ -23,14 +26,23 @@ public class FactureServiceImpl implements FactureService {
         this.clientRepository = clientRepository;
     }
     @Override
-    public List<Facture> getAllFactures() {
+    public List<Facture> getAllFacturesPerUser(Long  idUser) {
 
-        return (List<Facture>) factureRepository.findAll();
+        return factureRepository.findAll()
+                .stream()
+                .filter(facture -> facture.getUtilisateur().getId() == idUser)
+                .collect(Collectors.toList());
     }
 
     @Override
+    public List<Facture> getAllFactures() {
+
+        return factureRepository.findAll();
+    }
+    @Override
     public Facture addFactureFromDTO(FactureDto factureDto){
         Facture toAdd = new Facture();
+        toAdd.setUtilisateur((User)SecurityContextHolder.getContext().getAuthentication());
         BeanUtils.copyProperties(factureDto, toAdd);
         return factureRepository.save(toAdd);
     }

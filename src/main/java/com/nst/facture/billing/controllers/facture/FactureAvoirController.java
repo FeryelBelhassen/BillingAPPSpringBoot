@@ -17,7 +17,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+//@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 @Api("Facture Controller API")
 public class FactureAvoirController {

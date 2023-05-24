@@ -1,5 +1,6 @@
 package com.nst.facture.billing.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ import java.util.Set;
 /**
  * This class describe entity User
  */
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @Id

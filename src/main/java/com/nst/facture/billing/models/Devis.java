@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(	name = "devis")
@@ -40,9 +41,9 @@ public class Devis {
     @Column(name = "date_devis")
     private Date datedevis;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "designation")
-    private Product product;
+    private List<Product> product;
 
     @Column(name = "quantity")
     private Long quantity;

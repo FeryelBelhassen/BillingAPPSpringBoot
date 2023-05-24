@@ -20,7 +20,8 @@ import java.util.List;
 
 @RestController
 
-@CrossOrigin(origins = "http://localhost:8081")
+////@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 @Api("User Controller API")
 /**

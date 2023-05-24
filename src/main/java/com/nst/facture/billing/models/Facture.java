@@ -30,7 +30,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@JsonIgnoreProperties("hibernateLazyInitializer")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Facture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +39,9 @@ public class Facture {
 
     @Column(name = "numero_facture")
     private Long numerofacture;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private User utilisateur;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username")
@@ -58,6 +61,9 @@ public class Facture {
 
     @Column(name = "montant_ht")
     private double montantht;
+
+    @Column(name = "total")
+    private double total;
 
 
 }

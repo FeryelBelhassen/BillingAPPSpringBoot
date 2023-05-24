@@ -129,7 +129,14 @@ public class SpringBootBillingApplication {
                     .telephone("52021780").build();
             client2 = clientRepository.save(client2);
 
-            Client client3= Client.builder().username("ALI")
+            Client client3= Client.builder().username("AHMED")
+                    .email("ali@gmail.com")
+                    .password("ali126587")
+                    .adresse("TUNIS")
+                    .telephone("90236875").build();
+            client3 = clientRepository.save(client3);
+
+            Client client31 = Client.builder().username("Ahmed")
                     .email("ali@gmail.com")
                     .password("ali126587")
                     .adresse("TUNIS")
@@ -152,6 +159,7 @@ public class SpringBootBillingApplication {
 
             Facture facture = Facture.builder().numerofacture(122470L)
                     .client(client2)
+                    .utilisateur(admin)
                     .datefacture( Date.valueOf("2023-10-23"))
                     .product(List.of(product, product1))
                     .montanttc(120.03)
@@ -160,6 +168,7 @@ public class SpringBootBillingApplication {
 
             Facture facture1 = Facture.builder().numerofacture(122473L)
                     .client(client3)
+                    .utilisateur(client)
                     .datefacture( Date.valueOf("2021-7-8"))
                     .product(List.of(product1, product4))
                     .montanttc(220.03)
@@ -169,6 +178,7 @@ public class SpringBootBillingApplication {
 
             Facture facture2 = Facture.builder().numerofacture(122474L)
                     .client(client4)
+                    .utilisateur(agent)
                     .datefacture( Date.valueOf("2023-5-23"))
                     .product(List.of(product, product3))
                     .montanttc(550)
@@ -184,21 +194,21 @@ public class SpringBootBillingApplication {
 
             Devis devis1= Devis.builder().numerodevis(1236581L)
                     .datedevis(Date.valueOf("2021-7-5"))
-                    .product(product1)
+                    .product(List.of(product1))
                     .quantity(1L)
                     .price(120.23).build();
             devisRepository.save(devis1);
 
             Devis devis3= Devis.builder().numerodevis(1236582L)
                     .datedevis(Date.valueOf("2022-9-25"))
-                    .product(product3)
+                    .product(List.of(product3))
                     .quantity(3L)
                     .price(137.00).build();
             devisRepository.save(devis3);
 
             Devis devis4= Devis.builder().numerodevis(1236583L)
                     .datedevis(Date.valueOf("2023-3-22"))
-                    .product(product)
+                    .product(List.of(product))
                     .quantity(4L)
                     .price(125.00).build();
             devisRepository.save(devis4);

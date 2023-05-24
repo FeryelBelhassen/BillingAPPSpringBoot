@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface FactureService {
     public List<Facture> getAllFactures();
+    public List<Facture> getAllFacturesPerUser(Long id);
 
     Facture addFactureFromDTO(FactureDto factureDto);
 

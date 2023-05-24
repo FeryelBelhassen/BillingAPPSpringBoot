@@ -21,7 +21,8 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+//@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 @Api("Facture Controller API")
 public class FactureController {
@@ -41,7 +42,14 @@ public class FactureController {
     @Autowired
     private ClientRepository clientRepository;
 
+    /**A function that returns factures per user
+     *
+     * */
+    @GetMapping("/factures-per-user")
+    public List<Facture> allFacturesPerUser(@RequestParam("idUser") Long idUser){
+        return factureService.getAllFacturesPerUser(idUser);
 
+    }
     /**
      * This function displays the list of factures
      * @return
