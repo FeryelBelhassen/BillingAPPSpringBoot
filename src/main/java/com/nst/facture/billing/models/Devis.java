@@ -45,9 +45,6 @@ public class Devis {
     @JoinColumn(name = "designation")
     private List<Product> product;
 
-    @Column(name = "quantity")
-    private Long quantity;
-
     @Column(name = "price")
     private Double price;
 

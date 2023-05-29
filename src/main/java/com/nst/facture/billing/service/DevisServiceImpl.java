@@ -37,7 +37,6 @@ public class DevisServiceImpl implements DevisService {
         devisDB.setNumerodevis(devis.getNumerodevis());
         devisDB.setDatedevis(devis.getDatedevis());
         devisDB.setProduct(devis.getProduct());
-        devisDB.setQuantity(devis.getQuantity());
         devisDB.setPrice(devis.getPrice());
         Devis updatedDevis = getDevisById(id);
 

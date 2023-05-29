@@ -1,14 +1,11 @@
 package com.nst.facture.billing.service;
 
 import com.nst.facture.billing.models.Facture;
-import com.nst.facture.billing.models.Product;
-import com.nst.facture.billing.models.User;
 import com.nst.facture.billing.payload.Dto.FactureDto;
 import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.repository.FactureRepository;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,13 +39,11 @@ public class FactureServiceImpl implements FactureService {
     @Override
     public Facture addFactureFromDTO(FactureDto factureDto){
         Facture toAdd = new Facture();
-        toAdd.setUtilisateur((User)SecurityContextHolder.getContext().getAuthentication());
+        //toAdd.setUtilisateur((User)SecurityContextHolder.getContext().getAuthentication());
         BeanUtils.copyProperties(factureDto, toAdd);
         return factureRepository.save(toAdd);
     }
 
-    /*double total = product.stream().mapToDouble(Product::getPrice).sum();
-     facture.setTotal(total);*/
 
     @Override
     public Facture updateFacture(Long id, Facture facture) {
@@ -80,17 +75,6 @@ public class FactureServiceImpl implements FactureService {
         return factureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Facture not found"));
     }
-
-    /*@Override
-    public List<Facture> getFacturesByClient(String client) {
-        // Utilisez le repository pour récupérer les factures du client spécifié
-        List<Facture> factures = factureRepository.findByClient(client);
-
-        // Vous pouvez ajouter d'autres opérations de traitement ou de logique métier si nécessaire
-
-        return factures;
-    }*/
-
 
 
 }

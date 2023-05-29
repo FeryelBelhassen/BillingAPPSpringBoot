@@ -188,28 +188,25 @@ public class SpringBootBillingApplication {
 
             Devis devis= Devis.builder().numerodevis(1236580L)
                     .datedevis(Date.valueOf("2022-5-20"))
-                    .quantity(2L)
+                    .product(List.of(product1))
                     .price(110.23).build();
             devisRepository.save(devis);
 
             Devis devis1= Devis.builder().numerodevis(1236581L)
                     .datedevis(Date.valueOf("2021-7-5"))
-                    .product(List.of(product1))
-                    .quantity(1L)
+                    .product(List.of(product, product3))
                     .price(120.23).build();
             devisRepository.save(devis1);
 
             Devis devis3= Devis.builder().numerodevis(1236582L)
                     .datedevis(Date.valueOf("2022-9-25"))
                     .product(List.of(product3))
-                    .quantity(3L)
                     .price(137.00).build();
             devisRepository.save(devis3);
 
             Devis devis4= Devis.builder().numerodevis(1236583L)
                     .datedevis(Date.valueOf("2023-3-22"))
                     .product(List.of(product))
-                    .quantity(4L)
                     .price(125.00).build();
             devisRepository.save(devis4);
 

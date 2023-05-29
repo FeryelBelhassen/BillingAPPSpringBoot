@@ -2,9 +2,7 @@ package com.nst.facture.billing.controllers.facture;
 
 
 import com.nst.facture.billing.exception.ResourceNotFoundException;
-import com.nst.facture.billing.models.Client;
 import com.nst.facture.billing.models.Facture;
-import com.nst.facture.billing.models.Product;
 import com.nst.facture.billing.payload.Dto.FactureDto;
 import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.repository.FactureRepository;
@@ -97,8 +95,7 @@ public class FactureController {
         facture.setClient(updatedFacture.getClient());
         facture.setDatefacture(updatedFacture.getDatefacture());
         facture.setProduct(updatedFacture.getProduct());
-        facture.setMontanttc(updatedFacture.getMontanttc());
-        facture.setMontantht(updatedFacture.getMontantht());
+        facture.setTotal(updatedFacture.getTotal());
         factureRepository.save(facture);
         return facture;
     }
@@ -114,53 +111,6 @@ public class FactureController {
 
         factureService.deleteFacture(id);
     }
-
-
-    @PostMapping("/facture")
-    public Facture creerFacture(@RequestBody Long idClient) {
-        Client client = clientRepository.findById(idClient)
-                .orElseThrow(() -> new ResourceNotFoundException("Client introuvable"));
-
-        Facture facture = new Facture();
-        facture.setClient(client);
-        return factureRepository.save(facture);
-    }
-    @PostMapping("/factures/{idFacture}/produits")
-    public Facture ajouterProduit(@PathVariable Long idFacture, @RequestBody Long idProduit) {
-        Facture facture = factureRepository.findById(idFacture)
-                .orElseThrow(() -> new ResourceNotFoundException("Facture introuvable"));
-
-        Product product = productRepository.findById(idProduit)
-                .orElseThrow(() -> new ResourceNotFoundException("Produit introuvable"));
-
-        facture.getProduct().add(product);
-        return factureRepository.save(facture);
-    }
-
-    @PostMapping("/client/{clientId}/facture")
-    public Facture creerFacturePourClient(@PathVariable Long clientId, @RequestBody Facture facture) {
-        Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ResourceNotFoundException("Client introuvable"));
-
-        List<Product> produits = facture.getProduct();
-
-        // Calcul du total des produits
-        double total = produits.stream().mapToDouble(Product::getPrice).sum();
-
-        Facture facturee = new Facture();
-        facturee.setClient(client);
-        facturee.setProduct(produits);
-        facturee.setMontantht(total);
-        // Autres attributs de la facture à définir selon vos besoins
-
-        return factureRepository.save(facture);
-    }
-
-
-
-
-
-
 
 
 

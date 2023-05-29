@@ -14,9 +14,7 @@ import java.util.Date;
 public class DevisDto {
     private long numerodevis;
     private Date datedevis;
-
     private Product product;
-    private long quantity;
     private Double price;
 
     }

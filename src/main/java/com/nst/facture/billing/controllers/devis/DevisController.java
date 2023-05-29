@@ -81,7 +81,7 @@ public class DevisController {
         Devis devis = devisRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Devis not found"));
         devis.setNumerodevis(updatedDevis.getNumerodevis());
         devis.setDatedevis(updatedDevis.getDatedevis());
-        devis.setQuantity(updatedDevis.getQuantity());
+        devis.setProduct(updatedDevis.getProduct());
         devis.setPrice(updatedDevis.getPrice());
         devisRepository.save(devis);
         return devis;
