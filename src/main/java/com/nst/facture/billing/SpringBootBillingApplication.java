@@ -162,8 +162,7 @@ public class SpringBootBillingApplication {
                     .utilisateur(admin)
                     .datefacture( Date.valueOf("2023-10-23"))
                     .product(List.of(product, product1))
-                    .montanttc(120.03)
-                    .montantht(20.3).build();
+                    .total(584.000).build();
             factureRepository.save(facture);
 
             Facture facture1 = Facture.builder().numerofacture(122473L)
@@ -171,8 +170,7 @@ public class SpringBootBillingApplication {
                     .utilisateur(client)
                     .datefacture( Date.valueOf("2021-7-8"))
                     .product(List.of(product1, product4))
-                    .montanttc(220.03)
-                    .montantht(30.5).build();
+                    .total(facture.getTotal()).build();
             factureRepository.save(facture1);
 
 
@@ -181,8 +179,7 @@ public class SpringBootBillingApplication {
                     .utilisateur(agent)
                     .datefacture( Date.valueOf("2023-5-23"))
                     .product(List.of(product, product3))
-                    .montanttc(550)
-                    .montantht(40.3).build();
+                    .total(facture.getTotal()).build();
             factureRepository.save(facture2);
 
 
@@ -214,8 +211,7 @@ public class SpringBootBillingApplication {
                     .client(client2)
                     .datefacture( Date.valueOf("2022-2-7"))
                     .product(List.of(product))
-                    .montanttc(123.03)
-                    .montantht(23.3).build();
+                    .price(12.000).build();
             factureAvoirRepository.save(factureavoir1);
 
         };

@@ -15,8 +15,7 @@ import java.util.List;
 public class FactureAvoirDto {
     private long numfactureavoir;
     private Client client;
-    private Date datefacture;
-    private double montanttc;
-    private double montantht;
     private List<Product> product;
+    private Date datefacture;
+    private double price;
     }

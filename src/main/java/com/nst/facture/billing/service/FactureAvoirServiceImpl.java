@@ -42,8 +42,7 @@ public class FactureAvoirServiceImpl implements FactureAvoirService {
         factureavoirDB.setDatefacture(factureAvoir.getDatefacture());
         factureavoirDB.setClient(factureAvoir.getClient());
         factureavoirDB.setProduct(factureAvoir.getProduct());
-        factureavoirDB.setMontanttc(factureAvoir.getMontanttc());
-        factureavoirDB.setMontantht(factureAvoir.getMontantht());
+        factureavoirDB.setPrice(factureAvoir.getPrice());
         FactureAvoir updatedFactureavoir = getFactureAvoirById(id);
 
         return updatedFactureavoir;

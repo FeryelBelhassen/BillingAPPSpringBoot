@@ -54,11 +54,7 @@ public class FactureAvoir {
     private List <Product> product;
 
 
-    @Column(name = "montant_ttc")
-    private double montanttc;
-
-    @Column(name = "montant_ht")
-    private double montantht;
-
+    @Column(name = "price")
+    private double price;
 
 }

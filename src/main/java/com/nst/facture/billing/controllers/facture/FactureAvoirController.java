@@ -80,8 +80,7 @@ public class FactureAvoirController {
         factureAvoir.setClient(updatedFactureavoir.getClient());
         factureAvoir.setDatefacture(updatedFactureavoir.getDatefacture());
         factureAvoir.setProduct(updatedFactureavoir.getProduct());
-        factureAvoir.setMontanttc(updatedFactureavoir.getMontanttc());
-        factureAvoir.setMontantht(updatedFactureavoir.getMontantht());
+        factureAvoir.setPrice(updatedFactureavoir.getPrice());
         factureAvoirRepository.save(factureAvoir);
         return factureAvoir;
     }

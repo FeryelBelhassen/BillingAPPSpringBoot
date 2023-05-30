@@ -56,11 +56,11 @@ public class Facture {
     @JoinColumn(name = "designation")
     private List <Product> product;
 
-    @Column(name = "montant_ttc")
+    /*@Column(name = "montant_ttc")
     private double montanttc;
 
     @Column(name = "montant_ht")
-    private double montantht;
+    private double montantht;*/
 
     @Column(name = "total")
     private double total;

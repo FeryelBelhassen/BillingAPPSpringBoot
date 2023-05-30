@@ -16,8 +16,8 @@ public class FactureDto {
     private long numerofacture;
     private Client client;
     private Date datefacture;
-    private double montanttc;
-    private double montantht;
+    //private double montanttc;
+    //private double montantht;
     private ArrayList<Product> product;
     private double total;
 

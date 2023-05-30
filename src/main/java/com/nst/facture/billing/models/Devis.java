@@ -43,7 +43,8 @@ public class Devis {
 
     @ManyToMany
     @JoinColumn(name = "designation")
-    private List<Product> product;
+    private List <Product> product;
+
 
     @Column(name = "price")
     private Double price;
