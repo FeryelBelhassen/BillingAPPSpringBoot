@@ -7,7 +7,6 @@ import com.nst.facture.billing.payload.Dto.UserDto;
 import com.nst.facture.billing.repository.UserRepository;
 import com.nst.facture.billing.service.UserService;
 import io.swagger.annotations.Api;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,41 +27,41 @@ import java.util.List;
  * This class describes a userController
  */
 public class UserController {
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Autowired
-    private  UserService userService;
+    private UserService userService;
     @Autowired
     private UserRepository userRepository;
 
     /**
      * This function displays the list of users
+     *
      * @return
      */
 
     @GetMapping("/users")
-    public List<User> allUsers(){
+    public List<User> allUsers() {
         return userService.getAllUsers();
 
     }
 
     /**
      * This function for get a user
+     *
      * @param id
      * @return
      */
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") Long id){
+    public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 
-
     /**
      * This function about create a user
+     *
      * @param userDto
      * @return
      */
@@ -76,6 +75,7 @@ public class UserController {
 
     /**
      * This function about update a user
+     *
      * @param id
      * @return
      */
@@ -94,6 +94,7 @@ public class UserController {
 
     /**
      * This function about delete a user
+     *
      * @param id
      * @return
      */
@@ -103,23 +104,4 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<?> getContent() {
-        return ResponseEntity.ok("Public content goes here");
-    }
-
-    @GetMapping("/useer")
-    public ResponseEntity<?> getUserContent() {
-        return ResponseEntity.ok("User content goes here");
-    }
-
-    @GetMapping("/admin")
-    public ResponseEntity<?> getAdminContent() {
-        return ResponseEntity.ok("Admin content goes here");
-    }
-
-    @GetMapping("/agent")
-    public ResponseEntity<?> getModeratorContent() {
-        return ResponseEntity.ok("Moderator content goes here");
-    }
 }

@@ -6,7 +6,6 @@ import com.nst.facture.billing.payload.Dto.ClientDto;
 import com.nst.facture.billing.repository.ClientRepository;
 import com.nst.facture.billing.service.ClientService;
 import io.swagger.annotations.Api;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:8081")
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 @Api("Client Controller API")
@@ -23,9 +21,6 @@ public class ClientController {
 
     @Autowired
     ClientRepository clientRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Autowired
     private ClientService clientService;
